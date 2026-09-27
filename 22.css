@@ -1,0 +1,108 @@
+/* ==========================================
+ *  STYLING HALAMAN 22 (KEGIATAN PEMBELAJARAN II)
+ *  Font Size: calc(var(--page-width) / 47)
+ *  ========================================== */
+
+.content-container-22,
+.shifted-right-22 {
+    padding-left: calc(var(--page-width) / 25);
+    padding-right: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 50);
+    display: block !important;
+    box-sizing: border-box;
+}
+
+/* ------------------------------------------
+ * 1. BANNER HEADER KEGIATAN PEMBELAJARAN II
+ * ------------------------------------------ */
+.kp-banner-22 {
+    background-color: #e07a5f;
+    border-radius: calc(var(--page-width) / 30);
+    padding: calc(var(--page-width) / 90) calc(var(--page-width) / 40);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 40);
+    margin-bottom: calc(var(--page-width) / 40);
+    box-shadow: 0 calc(var(--page-width) / 200) calc(var(--page-width) / 100) rgba(0, 0, 0, 0.15);
+}
+
+.kp-logo-wrapper-22 {
+    width: calc(var(--page-width) / 8);
+    height: calc(var(--page-width) / 8);
+    min-width: calc(var(--page-width) / 8);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.kp-logo-img-22 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kp-title-container-22 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.kp-main-title-22 {
+    font-size: calc(var(--page-width) / 38);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.kp-subtitle-22 {
+    font-size: calc(var(--page-width) / 36);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 100);
+    line-height: 1.2;
+}
+
+.star-icon-22 {
+    font-size: 0.9em;
+    color: #ffffff;
+}
+
+/* ------------------------------------------
+ * 2. BOX APERSEPSI (GARIS PUTUS-PUTUS BIRU)
+ * ------------------------------------------ */
+.apersepsi-card-22 {
+    border: calc(var(--page-width) / 800) dashed #60a5fa;
+    border-radius: calc(var(--page-width) / 200);
+    padding: calc(var(--page-width) / 50) calc(var(--page-width) / 40);
+    background-color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.apersepsi-lead-22 {
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    margin-top: 0;
+    margin-bottom: calc(var(--page-width) / 80);
+    line-height: 1.35;
+}
+
+.apersepsi-paragraph-22 {
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.4;
+    text-indent: calc(var(--page-width) / 15);
+    margin-top: 0;
+    margin-bottom: calc(var(--page-width) / 70);
+    text-align: justify;
+}
+
+.apersepsi-paragraph-22:last-child {
+    margin-bottom: 0;
+}

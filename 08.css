@@ -1,0 +1,52 @@
+/* ==========================================
+   STYLING KHUSUS HALAMAN 8 (MUATAN LISTRIK)
+   ========================================== */
+
+/* Badge Header Sub-Judul (A. Muatan Listrik) */
+.section-badge-8 {
+    display: inline-block;
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    border: 0.4px solid #0f172a;
+    border-radius: calc(var(--page-width) / 90);
+    padding: calc(var(--page-width) / 120) calc(var(--page-width) / 40);}
+
+.section-badge-8 h2 {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Container & Paragraf */
+.content-container-8 p {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    color: #0f172a;
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 15);
+}
+
+/* Video Player YouTube Container */
+.video-container-yt-8 {
+    position: relative;
+    width: 90%;
+    aspect-ratio: 16 / 9;
+    margin: calc(var(--page-width) / 50) auto calc(var(--page-width) / 90) auto;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.video-container-yt-8 iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Caption Video */
+.video-caption-8 {
+    text-align: center;
+    font-size: calc(var(--page-width) / 48);
+    color: #334155;
+    margin-bottom: calc(var(--page-width) / 100);
+}

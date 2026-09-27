@@ -1,0 +1,80 @@
+/* ==========================================
+   STYLING KHUSUS HALAMAN 09 (PROFIL & CP)
+   ========================================== */
+
+/* Badge Judul Sub-Bab */
+.section-badge-09 {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-size: calc(var(--page-width) / 45);
+    font-weight: 700;
+    padding: calc(var(--page-width) / 60) calc(var(--page-width) / 30);
+    border-radius: calc(var(--page-width) / 80);
+    margin-top: calc(var(--page-width) / 40);
+    margin-bottom: calc(var(--page-width) / 50);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+/* Kontainer Kotak Konten */
+.content-box-09 {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(2, 132, 199, 0.2);
+    border-radius: calc(var(--page-width) / 60);
+    padding: calc(var(--page-width) / 60);
+    margin-top:3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Layout Profil Pelajar Pancasila (D) */
+.ppp-container-09 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--page-width) / 200);
+}
+
+.ppp-list-09 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 20);
+    flex: 1;
+}
+
+.ppp-list-09 li {
+    font-size: calc(var(--page-width) / 49);
+    line-height: calc(var(--page-width) / 30);
+    color: #334155;
+    margin-bottom: calc(var(--page-width) / 120);
+    white-space: nowrap;
+}
+.garuda-img-09 {
+    position: absolute;
+    top: 20%;
+    left: 70%;
+    transform: translateX(-30%); /* Posisi Tepat di Tengah Halaman */
+    width: calc(var(--page-width) /5);
+
+    opacity: 1;               /* Efek transparan/watermark */
+    z-index: 1;                  /* Berada di belakang teks */
+    pointer-events: none;
+}
+
+/* Sub-Judul Capaian Pembelajaran (E) */
+.cp-title-09 {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: calc(var(--page-width) / 60);
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: calc(var(--page-width) / 200);
+    display:;
+}
+
+/* Teks Capaian Pembelajaran */
+.cp-text-09 {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    color: #334155;
+    text-align: justify;
+    margin: 0;
+}

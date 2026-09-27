@@ -1,0 +1,173 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 15
+ *  ========================================== */
+
+.content-container-15 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.4;
+    display: block !important;
+}
+
+.shifted-right-15 {
+    padding-left: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+/* ==========================================
+ *  1. MATEMATIKA PERHITUNGAN ATAS
+ *  ========================================== */
+.math-step-15 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--page-width) / 150);
+    padding-left: calc(var(--page-width) / 30);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.arah-section-15 {
+    margin-bottom: calc(var(--page-width) / 50);
+}
+
+.section-title-15 {
+    margin-bottom: calc(var(--page-width) / 200);
+}
+
+.arah-section-15 p {
+    margin: 0 0 calc(var(--page-width) / 150) 0;
+}
+
+.kesimpulan-15 {
+    margin-top: calc(var(--page-width) / 100) !important;
+}
+
+/* ==========================================
+ *  2. LAYOUT SOAL NOMOR 3 (OUTDENT NUMBER 3)
+ *  ========================================== */
+.soal-item-15 {
+    margin-bottom: calc(var(--page-width) / 60);
+    width: 100%;
+}
+
+.soal-layout-15 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    margin-left: calc(var(--page-width) / -35);
+    gap: calc(var(--page-width) / 120);
+}
+
+.soal-number-15 {
+    font-weight: normal;
+    flex: 0 0 auto;
+    width: calc(var(--page-width) / 45);
+    text-align: left;
+    line-height: 1.4;
+}
+
+.soal-img-box-15 {
+    flex: 0 0 26%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.soal-img-box-15 img {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.soal-text-15 {
+    flex: 1;
+    text-align: justify;
+    line-height: 1.4;
+}
+
+.soal-text-15 p {
+    margin: 0;
+}
+
+/* ==========================================
+ *  3. PENYELESAIAN & LIST ALIGNMENT (KORREKSI PRESISI)
+ *  ========================================== */
+.penyelesaian-container-15 {
+    margin-top: calc(var(--page-width) / 80);
+    width: 100%;
+}
+
+.penyelesaian-title-15 {
+    margin: 0 0 calc(var(--page-width) / 200) 0;
+    font-style: italic;
+}
+
+/*
+ * Titik Bullet (•) Tepat Lurus Vertikal di Bawah Huruf "P" dari Penyelesaian
+ * Menggunakan padding-left yang disesuaikan agar marker titik pas berada di bawah huruf P
+ */
+.bullet-list-15 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 36) !important;
+    list-style-type: disc;
+}
+
+.bullet-list-15 > li {
+    margin-bottom: calc(var(--page-width) / 150);
+}
+
+/*
+ * Angka 1. Tepat Lurus Vertikal di Bawah Huruf "F" pada 'Free body diagram'
+ */
+.step-list-15 {
+    margin-top: calc(var(--page-width) / 200);
+    padding-left: calc(var(--page-width) / 45) !important;
+    list-style-type: decimal;
+}
+
+/* Gambar Situasi Awal Pas di Bawah Teks "Gambar situasi awal" */
+.image-situasi-box-15 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 120);
+    margin-bottom: calc(var(--page-width) / 100);
+    padding-left: calc(var(--page-width) / 100);
+}
+
+.image-situasi-box-15 img {
+    width: calc(var(--page-width) / 6);
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Container Gambar Umum Langkah Lainnya */
+.image-step-box-15 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 150);
+    margin-bottom: calc(var(--page-width) / 100);
+    padding-left: calc(var(--page-width) / 30);
+}
+
+.image-step-box-15 img {
+    max-width: 37%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ==========================================
+ *  4. KATEX FORMULA STYLING
+ *  ========================================== */
+.content-container-15 .katex {
+    font-size: 1.05em !important;
+    line-height: normal !important;
+}
+
+.content-container-15 .katex .msupsub {
+    font-size: 0.75em !important;
+}

@@ -1,0 +1,72 @@
+/* ==========================================
+ *  STYLING HALAMAN 17 (RESPONSIF FULL VAR)
+ *  ========================================== */
+
+.content-container-17 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.5;
+    display: block !important;
+}
+
+.shifted-right-17 {
+    padding-left: calc(var(--page-width) / 20);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+.penyelesaian-container-17 {
+    width: 100%;
+}
+
+.sub-title-17 {
+    margin: calc(var(--page-width) / 60) 0 calc(var(--page-width) / 150) 0;
+}
+
+.desc-text-17 {
+    margin: 0 0 calc(var(--page-width) / 120) 0;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+/* KONTROL JARAK BARIS FORMULA MATEMATIKA */
+.math-steps-17 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 65);
+    margin: calc(var(--page-width) / 100) 0 calc(var(--page-width) / 60) 0;
+}
+
+.math-row-17 {
+    display: flex;
+    align-items: center;
+    min-height: calc(var(--page-width) / 16);
+}
+
+/* DIAGRAM ARAH RESULTAN */
+.image-arah-box-17 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 100);
+}
+
+.image-arah-box-17 img {
+    width: calc(var(--page-width) / 3.8);
+    height: auto;
+    display: block;
+}
+
+/* SKALA UKURAN FONT KATEX */
+.content-container-17 .katex {
+    font-size: calc(var(--page-width) / 45) !important;
+}
+
+/* MENJAGA PROPORSI UKURAN ELEMEN DI DALAM AKAR (SQRT) */
+.content-container-17 .katex .sqrt .mord {
+    font-size: 1em !important;
+}
+
+.content-container-17 .katex .sqrt .mfrac .mord {
+    font-size: calc(var(--page-width) / 55) !important;
+}

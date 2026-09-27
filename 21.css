@@ -1,0 +1,50 @@
+/* ==========================================
+ *  STYLING HALAMAN 21 (RESPONSIF FULL VAR)
+ *  ========================================== */
+
+.content-container-21 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.5;
+    display: block !important;
+}
+
+.shifted-right-21 {
+    padding-left: calc(var(--page-width) / 65);
+    padding-right: calc(var(--page-width) / 20);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+/* LIST UTAMA */
+.main-list-21 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 22);
+}
+
+.main-list-21 > li {
+    margin-bottom: calc(var(--page-width) / 60);
+    text-align: justify;
+}
+
+/* AREA PERSAMAAN MATEMATIKA */
+.math-display-21 {
+    text-align: center;
+    margin: calc(var(--page-width) / 80) 0;
+}
+
+/* SUB-LIST POIN a, b, c, d */
+.sub-list-21 {
+    margin: calc(var(--page-width) / 120) 0 0 0;
+    padding-left: calc(var(--page-width) / 40);
+}
+
+.sub-list-21 li {
+    margin-bottom: calc(var(--page-width) / 200);
+    text-align: justify;
+}
+
+/* SKALA KATEX RESPONSIF */
+.content-container-21 .katex {
+    font-size: calc(var(--page-width) / 42) !important;
+}

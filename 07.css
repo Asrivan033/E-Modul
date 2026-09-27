@@ -1,0 +1,52 @@
+/* ==========================================
+   STYLING KHUSUS HALAMAN 7 (TUJUAN PEMBELAJARAN)
+   ========================================== */
+
+/* Header Kapsul / Badge Judul Utama */
+.tujuan-header-box-7 {
+    background-color: #c8d8e4;
+    padding:calc(var(--page-width) / 90);
+    border-radius:calc(var(--page-width) / 90);
+    display: inline-block;
+    width: fit-content;
+    font-size: calc(var(--page-width) / 45);
+    marggin-bottom:70px
+}
+
+
+.tujuan-header-box-7 h2 {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* Kotak Bingkai Bergaris Putus-Putus */
+.dashed-box-7 {
+    border: 1px dashed #0284c7;
+    border-radius: calc(var(--page-width) / 60);
+    padding: calc(var(--page-width) / 25) calc(var(--page-width) / 30);
+    background-color: rgba(255, 255, 255, 0.75);
+    margin-top: calc(var(--page-width) / -60); /* Overlap sedikit agar menyatu halus */
+    position: relative;
+    z-index: 1;
+}
+
+/* Daftar Berurutan (Ordered List) */
+.tujuan-list-7 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 55);
+    color: #0f172a;
+}
+
+.tujuan-list-7 li {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    text-align: justify;
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+.tujuan-list-7 li:last-child {
+    margin-bottom: 0;
+}

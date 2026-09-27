@@ -1,0 +1,164 @@
+/* ==========================================
+ *  STYLING HALAMAN 18 (RESPONSIF FULL VAR)
+ *  ========================================== */
+
+/* KONTAINER UTAMA HALAMAN 18 */
+.content-container-18 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 49);
+    color: #0f172a;
+    line-height: 1.5;
+    display: block !important;
+}
+
+.shifted-right-18 {
+    padding-left: calc(var(--page-width) / 50);
+    padding-right:calc(var(--page-width) / 50);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+/* ==========================================
+ * 1. HEADER JUDUL DI LUAR KOTAK (MONOTYPE CORSIVA)
+ * ========================================== */
+.kegiatan-header-outside-18 {
+    display: flex;
+    flex-wrap: nowrap; /* Menjaga agar sejajar 1 baris memanjang */
+    align-items: baseline;
+    gap: calc(var(--page-width) / 100);
+    margin-bottom: calc(var(--page-width) / 200);
+    padding-left:calc(var(--page-width) / 18);
+    font-family: "Monotype Corsiva", "Dancing Script", "Zapf Chancery", cursive !important;
+    font-weight: bold;
+}
+
+/* TULISAN KEGIATAN : (MERAH & MONOTYPE CORSIVA) */
+.label-kegiatan-script-18 {
+    font-size: calc(var(--page-width) / 40);
+    font-weight: bold;
+    color: #4F81BD; /* Merah sesuai panduan */
+    white-space: nowrap;
+    font-style: italic !important;
+    font-family: inherit !important;
+}
+
+/* TULISAN JUDUL KEGIATAN (BIRU CERAH & MONOTYPE CORSIVA) */
+.text-judul-kegiatan-script-18 {
+    font-size: calc(var(--page-width) / 40);
+    font-weight: bold;
+    color: #0088cc; /* Biru cerah sesuai panduan */
+    line-height: 1.2;
+    white-space: nowrap; /* Mencegah patah jadi beberapa baris */
+    font-style: italic !important;
+    font-family: inherit !important;
+}
+
+/* ==========================================
+ * 2. KOTAK UTAMA DENGAN BACKGROUND HIJAU MUDA & DASHED BORDER
+ * ========================================== */
+.kegiatan-card-18 {
+    position: relative; /* Kunci koordinat absolut untuk pensil */
+    background-color: #f2f7e9; /* Background hijau-kuning lembut sesuai panduan */
+    border: calc(var(--page-width) / 350) dashed #62a3cc; /* Garis titik-titik biru lembut */
+    border-top:none;
+    border-radius: calc(var(--page-width) / 120);
+    padding-top: calc(var(--page-width) / 30);
+    padding-bottom: calc(var(--page-width) / 35);
+    padding-left: calc(var(--page-width) / 100);
+    padding-right: calc(var(--page-width) / 30);
+    box-sizing: border-box;
+}
+
+/* ==========================================
+ * 3. IKON PENSIL INDEPENDEN (POSISI BEBAS)
+ * ========================================== */
+.pencil-icon-box-18 {
+    position: absolute;
+    top: calc(var(--page-width) / -14);       /* Ubah nilai ini untuk koordinat vertikal */
+    right: calc(var(--page-width) / 1.403);     /* Ubah nilai ini untuk koordinat horizontal */
+    z-index: 10;
+    pointer-events: none;
+}
+
+.pencil-icon-18 {
+    width: calc(var(--page-width) / 10);
+    height: auto;
+    display: block;
+}
+
+/* ==========================================
+ * SUB-SEKSI KONTEN
+ * ========================================== */
+.section-block-18 {
+    margin-bottom: calc(var(--page-width) / 50);
+}
+
+.section-header-18 {
+    font-weight: bold;
+    font-size: calc(var(--page-width) / 47);
+    margin: 0 0 calc(var(--page-width) / 250) 0;
+    color: #0f172a;
+}
+
+.desc-text-18 {
+    margin: 0 0 calc(var(--page-width) / 200) 0;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+/* LIST PETUNJUK */
+.list-petunjuk-18 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 49);
+    line-height: 1.5;
+}
+
+.list-petunjuk-18 li {
+    margin-bottom: calc(var(--page-width) / 250);
+}
+
+/* GAMBAR PERSOALAN */
+.image-persoalan-box-18 {
+    display: flex;
+    justify-content: flex-start;
+    margin: calc(var(--page-width) / 80) 0;
+}
+
+.image-persoalan-box-18 img {
+    width: calc(var(--page-width) / 4);
+    height: auto;
+    display: block;
+}
+
+/* CHECKLIST MANDIRI */
+.checklist-section-18 {
+    margin-top: calc(var(--page-width) / 35);
+    padding-top: calc(var(--page-width) / 60);
+    border-top: calc(var(--page-width) / 500) solid #cbd5e1;
+    color:#FF0000;
+}
+
+.checklist-items-18 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 120);
+    margin-top: calc(var(--page-width) / 100);
+}
+
+.check-item-18 {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 80);
+    cursor: pointer;
+}
+
+.check-item-18 input[type="checkbox"] {
+    width: calc(var(--page-width) / 50);
+    height: calc(var(--page-width) / 50);
+    border: solid #cbd5e1;
+    cursor: pointer;
+}
+
+/* SKALA KATEX RESPONSIF */
+.content-container-18 .katex {
+    font-size: calc(var(--page-width) / 47) !important;
+}

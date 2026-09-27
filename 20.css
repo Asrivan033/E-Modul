@@ -1,0 +1,110 @@
+/* ==========================================
+ *  STYLING HALAMAN 20 (REFLEKSI)
+ *  Font Size: calc(var(--page-width) / 47)
+ *  ========================================== */
+
+.content-container-20,
+.shifted-right-20 {
+    padding-left: calc(var(--page-width) / 25);
+    padding-right: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 50);
+    display: block !important;
+    box-sizing: border-box;
+}
+
+/* 1. SUB CHAPTER BADGE D. REFLEKSI */
+.sub-chapter-badge-20 {
+    display: inline-block;
+    background-color: #f1f5f9;
+    border: calc(var(--page-width) / 600) solid #0f172a;
+    border-radius: calc(var(--page-width) / 180);
+    padding: calc(var(--page-width) / 300) calc(var(--page-width) / 25);
+    font-weight: bold;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+/* 2. TEKS INSTRUKSI */
+.refleksi-instruction-20 {
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.35;
+    margin-top: 0;
+    margin-bottom: calc(var(--page-width) / 80);
+    text-align: justify;
+}
+
+/* 3. TABEL REFLEKSI */
+.refleksi-table-20 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: calc(var(--page-width) / 60);
+    font-size: calc(var(--page-width) / 47);
+}
+
+.refleksi-table-20 th,
+.refleksi-table-20 td {
+    border: 0.1px solid #0f172a;
+    padding: calc(var(--page-width) / 120) calc(var(--page-width) / 80);
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.refleksi-table-20 th {
+    background-color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Lebar dan Perataan Kolom Tabel */
+.col-no-20 {
+    width: 8%;
+    text-align: center;
+}
+
+.col-pertanyaan-20 {
+    width: 68%;
+    text-align: left;
+}
+
+.col-ya-20,
+.col-tidak-20 {
+    width: 12%;
+    text-align: center;
+}
+
+/* 4. CARD CATATAN REFLEKSI */
+.catatan-card-20 {
+    background-color: #ecf3e6;
+    border: calc(var(--page-width) / 700) solid #d1e2c4;
+    border-radius: calc(var(--page-width) / 200);
+    padding: calc(var(--page-width) / 80) calc(var(--page-width) / 60);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.catatan-title-20 {
+    font-weight: bold;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    margin: 0 0 calc(var(--page-width) / 180) 0;
+}
+
+.catatan-list-20 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 30);
+    list-style-type: square;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.35;
+}
+
+.catatan-list-20 li {
+    margin-bottom: calc(var(--page-width) / 200);
+    text-align: justify;
+}
+
+.catatan-list-20 li:last-child {
+    margin-bottom: 0;
+}

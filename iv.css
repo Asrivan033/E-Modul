@@ -1,0 +1,265 @@
+/* =========================================================
+ *  04.CSS
+ *  KHUSUS HALAMAN 4
+ *  PETUNJUK PENGGUNAAN E-MODUL
+ *  ========================================================= */
+
+
+/* =========================================================
+ *  CONTAINER HALAMAN 4
+ *  ========================================================= */
+
+.petunjuk04 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    color: #111827;
+    align-self: center;
+    text-align: center;
+
+}
+
+
+/* =========================================================
+ *  JUDUL PETUNJUK
+ *  ========================================================= */
+
+.judul-petunjuk04 {
+    display: block;
+    align-self: center;
+    text-align: center;
+    background-color: #117899;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: calc(var(--page-width) / 45);
+    padding: calc(var(--page-width) / 75) calc(var(--page-width) / 12);
+    border-radius: calc(var(--page-width) / 120);
+    letter-spacing: calc(var(--page-width) / 200);
+    margin-bottom: calc(var(--page-width) / 35); /* Diperkecil spasi bawah pita */
+    margin-top: calc(var(--page-width) / 15);
+    box-shadow: 0 calc(var(--page-width) / 180) calc(var(--page-width) / 90) rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================================
+ *  PARAGRAF PEMBUKA
+ *  ========================================================= */
+
+.pengantar04 {
+    margin-top: none;
+    margin-bottom: 0;
+
+    font-family: "Times New Roman", serif;
+    font-size: calc(var(--page-width) / 45);
+
+    line-height: 1.45;
+
+    text-align: justify;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+ *  DAFTAR PETUNJUK
+ *  ========================================================= */
+
+.langkah04 {
+    width: 100%;
+
+    margin-top: calc(var(--page-width) / 80);
+}
+
+
+/* Setiap nomor petunjuk */
+
+.langkah-item04 {
+    display: flex;
+    align-items: flex-start;
+
+    width: 100%;
+
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+
+/* Nomor 1, 2, 3 */
+
+.nomor04 {
+    flex: 0 0 calc(var(--page-width) / 24);
+
+    font-family: "Times New Roman", serif;
+    font-size: calc(var(--page-width) / 45);
+
+    line-height: 1.45;
+
+    color: #111111;
+}
+
+
+/* Teks petunjuk */
+
+.langkah-item04 p {
+    flex: 1;
+
+    margin: 0;
+
+    font-family: "Times New Roman", serif;
+    font-size: calc(var(--page-width) / 45);
+
+    line-height: 1.42;
+
+    text-align: justify;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+ *  DAFTAR FITUR
+ *  ========================================================= */
+
+.fitur04 {
+    width: 100%;
+
+    margin-top: calc(var(--page-width) / 100);
+}
+
+
+/* Setiap fitur */
+
+.fitur-item04 {
+    display: flex;
+
+    width: 100%;
+
+    min-height: calc(var(--page-width) / 14);
+
+    margin-bottom: calc(var(--page-width) / 180);
+}
+
+
+/* =========================================================
+ *  KOTAK IKON
+ *  ========================================================= */
+
+.fitur-icon04 {
+    width: calc(var(--page-width) / 20);
+    min-width: calc(var(--page-width) / 15);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #050505;
+
+    color: #ffffff;
+
+    border: 1px solid #222222;
+}
+
+
+/* Ukuran ikon Lucide */
+
+.fitur-icon04 svg {
+    width: calc(var(--page-width) / 25);
+    height: calc(var(--page-width) / 25);
+
+    stroke-width: 1.6;
+}
+
+
+/* =========================================================
+ *  KETERANGAN FITUR
+ *  ========================================================= */
+
+.fitur-keterangan04 {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    padding:
+    calc(var(--page-width) / 100)
+    calc(var(--page-width) / 60);
+
+    background: #eef4df;
+
+    border-top: 1px solid #d8e4c5;
+    border-right: 1px solid #d8e4c5;
+    border-bottom: 1px solid #d8e4c5;
+
+    font-family: "Times New Roman", serif;
+    font-size: calc(var(--page-width) / 45);
+
+    line-height: 1.25;
+
+    text-align: left;
+
+    color: #111111;
+}
+
+
+/* Nama fitur */
+
+.fitur-keterangan04 b {
+    margin-right: calc(var(--page-width) / 150);
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+ *  RESPONSIVE
+ *  ========================================================= */
+
+@media (max-width: 800px) {
+
+    .judul-petunjuk04 {
+        font-size: calc(var(--page-width) / 45);
+    }
+
+    .pengantar04,
+    .langkah-item04 p {
+        font-size: calc(var(--page-width) / 45);
+    }
+
+    .nomor04 {
+        font-size: calc(var(--page-width) / 45);
+    }
+
+    .fitur-keterangan04 {
+        font-size: calc(var(--page-width) / 45);
+    }
+}
+
+
+/* =========================================================
+ *  HP LAYAR KECIL
+ *  ========================================================= */
+
+@media (max-width: 500px) {
+
+    .judul-petunjuk04 {
+        width: 85%;
+
+        font-size: calc(var(--page-width) / 45);
+    }
+
+    .pengantar04,
+    .langkah-item04 p {
+        font-size: calc(var(--page-width) / 45);
+    }
+
+    .fitur-keterangan04 {
+        font-size: calc(var(--page-width) / 45);
+
+        padding-left: calc(var(--page-width) / 70);
+        padding-right: calc(var(--page-width) / 70);
+    }
+
+    .fitur-icon04 {
+        width: calc(var(--page-width) / 9);
+        min-width: calc(var(--page-width) / 9);
+    }
+}

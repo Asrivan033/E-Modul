@@ -1,0 +1,100 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 11 (PROSEDUR FBD)
+ *  ========================================== */
+
+/* Badge Header Sub-Judul C */
+.section-badge-11 {
+    background-color: #c8d8e4;
+    padding: calc(var(--page-width) / 90);
+    border-radius: calc(var(--page-width) / 90);
+    display: inline-block;
+    width: fit-content;
+    font-size: calc(var(--page-width) / 47);
+    margin-top: calc(var(--page-width) / 40);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.section-badge-11 h2 {
+    font-size: calc(var(--page-width) / 47);
+    font-weight: 700;
+    color: #0f172a;
+    margin: calc(var(--page-width) / 999);
+}
+
+/* KONTEN GESER KE KANAN & FLOW BLOK ALAMI (MENCEGAH FLEX RENGGANG) */
+.content-container-11,
+.shifted-right-11 {
+    padding-left: calc(var(--page-width) / 25);
+    display: block !important;
+}
+
+/* Paragraf & Teks Utama */
+.content-container-11 p {
+    font-size: calc(var(--page-width) / 47);
+    line-height: 1.5;
+    color: #0f172a;
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 15);
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+/* DAFTAR LANGKAH-LANGKAH (NUMBERED LIST) */
+.prosedur-list-11 {
+    margin-top: calc(var(--page-width) / 999);
+    margin-bottom: calc(var(--page-width) / 100);
+    padding-left: calc(var(--page-width) / 40);
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.45;
+}
+
+.prosedur-list-11 li {
+    margin-bottom: calc(var(--page-width) / 150);
+    text-align: justify;
+}
+
+/* CONTAINER GAMBAR 1.3 */
+.figure-container-11 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 60);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.image-box-11 {
+    border: calc(var(--page-width) / 400) solid #0f172a;
+    border-radius: calc(var(--page-width) / 150);
+    padding: calc(var(--page-width) / 100);
+    background-color: #ffffff;
+    width: 90%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-box-11 img {
+    width: 100%;
+    max-height: calc(var(--page-width) / 6);
+    object-fit: contain;
+}
+
+.figure-caption-11 {
+    margin-left:calc(var(--page-width) / -40);
+    text-align: left;
+    font-size: calc(var(--page-width) / 52);
+    color: #0f172a;
+}
+
+/* STYLING NOTASI FISIKA */
+.math-italic {
+    font-style: italic;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.content-container-11 sub,
+.content-container-11 sup {
+    font-size: calc(var(--page-width) / 65);
+    line-height: calc(var(--page-width) / 999);
+}

@@ -1,0 +1,57 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 02 (KATA PENGANTAR)
+ *  ========================================== */
+
+/* Judul Utama Kata Pengantar */
+.title-pengantar {
+    display: inline-block;
+    align-self: center;
+    background-color: #117899;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: calc(var(--page-width) / 45);
+    padding: calc(var(--page-width) / 60) calc(var(--page-width) / 12);
+    border-radius: calc(var(--page-width) / 90);
+    letter-spacing: calc(var(--page-width) / 360);
+    margin-bottom: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 30);
+    box-shadow: 0 calc(var(--page-width) / 180) calc(var(--page-width) / 90) rgba(0, 0, 0, 0.15);
+}
+
+/* Salam Pembuka & Penutup */
+.salam {
+    font-size: calc(var(--page-width) / 45);
+    color: #0f172a;
+    margin-bottom: calc(var(--page-width) / 80);
+    font-weight: 500;
+}
+
+/* Format Paragraf Isi */
+.paragraf02 p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 14.4);
+    color: #1e293b;
+}
+
+/* Lokasi & Tanggal Tanda Tangan */
+.role-label2 {
+    text-align: right;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: calc(var(--page-width) / 45);
+    color: #0f172a;
+    margin-top: calc(var(--page-width) / 24);
+    padding-right: calc(var(--page-width) / 18);
+}
+
+/* Nama Penanda Tangan (Penulis) */
+.person-name2 {
+    text-align: right;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: calc(var(--page-width) / 45);
+    color: #0f172a;
+    margin-top: calc(var(--page-width) / 8);
+    padding-right: calc(var(--page-width) / 7.2);
+}

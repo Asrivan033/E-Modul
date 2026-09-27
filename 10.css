@@ -1,0 +1,82 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 10 (RESULTAN VEKTOR)
+ *  ========================================== */
+
+/* KONTEN GESER KE KANAN DAN LAYOUT UTAMA */
+.content-container-10,
+.shifted-right-10 {
+    padding-left: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 35);
+    display: block !important;
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.45;
+}
+
+/* Kerapatan Paragraf */
+.content-container-10 p {
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 20);
+    margin-bottom: calc(var(--page-width) / 75);
+}
+
+/* BOX RUMUS MATEMATIKA */
+.formula-box-10 {
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: calc(var(--page-width) / 70);
+    margin-bottom: calc(var(--page-width) / 70);
+    background-color: #e2e8f0;
+    border: calc(var(--page-width) / 600) solid #1e293b;
+    padding: calc(var(--page-width) / 100) 0;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* KETERANGAN RUMUS */
+.keterangan-container-10 {
+    font-size: calc(var(--page-width) / 48);
+    color: #0f172a;
+    margin-top: calc(var(--page-width) / 80);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.keterangan-title-10 {
+    margin-bottom: calc(var(--page-width) / 120);
+}
+
+.keterangan-list-10 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 150);
+    padding-left: calc(var(--page-width) / 60);
+}
+
+/* ==========================================
+ *  STYLING KATEX UNTUK HALAMAN 10
+ *  ========================================== */
+.content-container-10 .katex {
+    font-size: 1em !important;
+    line-height: normal !important;
+}
+
+/* Ukuran Font Khusus Di Dalam Box Rumus */
+.formula-box-10 .katex {
+    font-size: 1.25em !important;
+}
+
+/* Mengatur Posisi & Garis Akar Kuadrat KaTeX */
+.formula-box-10 .katex .sqrt > .root {
+    margin-right: -0.2em;
+}
+
+.formula-box-10 .katex .sqrt .rc-g {
+    stroke-width: 1.2;
+}
+
+/* Penyesuaian Subscript Agars Tidak Terpotong */
+.content-container-10 .katex .msupsub {
+    font-size: 0.75em !important;
+}

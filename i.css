@@ -1,0 +1,70 @@
+/* ==========================================================================
+ *  STYLING HALAMAN 01: COVER E-MODUL (PRESISI DI TENGAH)
+ *  ========================================================================== */
+
+/* Kontainer utama cover modul */
+.modul-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Memaksa semua konten ke tengah vertikal */
+    gap: calc(var(--page-width) / 30); /* Jarak otomatis yang seimbang antar elemen */
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    color: #000000;
+    z-index: 15;
+    padding: 0;
+    margin: 0;
+}
+
+/* Bagian Logo Instansi */
+.modul-cover .logo-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--page-width) / 60);
+    margin: 0; /* Hapus margin-top besar */
+}
+
+.modul-cover .logo-group img {
+    height: calc(var(--page-width) / 5);
+    width: auto;
+    object-fit: contain;
+}
+
+/* Bagian Judul Modul */
+.modul-cover .title-section h1 {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: bold;
+    line-height: 1.4;
+    color: #000000;
+    text-transform: uppercase;
+    margin: 0; /* Hapus margin-top besar */
+}
+
+.modul-cover .title-section h1 i {
+    font-style: italic;
+}
+
+/* Bagian Penyusun (Author) & Dosen */
+.modul-cover .author-section,
+.modul-cover .advisor-section {
+    margin: 0;
+}
+
+.modul-cover .author-section p.label,
+.modul-cover .advisor-section p.label {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: bold;
+    margin: 0 0 calc(var(--page-width) / 120) 0; /* Hapus margin-top besar */
+}
+
+.modul-cover .author-section p.name,
+.modul-cover .advisor-section p.name {
+    font-size: calc(var(--page-width) / 45);
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 0;
+}

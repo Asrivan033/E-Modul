@@ -1,0 +1,127 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 13
+ *  ========================================== */
+
+.content-container-13 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.4;
+    display: block !important;
+}
+
+.shifted-right-13 {
+    padding-left: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+/* ==========================================
+ *  1. LANGKAH MATEMATIKA (PERHITUNGAN ATAS)
+ *  ========================================== */
+.math-step-13 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--page-width) / 120);
+    padding-left: calc(var(--page-width) / 20);
+    margin-bottom: calc(var(--page-width) / 80);
+}
+
+.kesimpulan-13 {
+    margin-bottom: calc(var(--page-width) / 50);
+    text-indent: calc(var(--page-width) / 20);
+}
+
+/* ==========================================
+ *  2. STRUKTUR SOAL & PENYELESAIAN
+ *  ========================================== */
+.soal-item-13 {
+    text-align: justify;
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.soal-item-13 p {
+    margin: 0;
+    text-indent: calc(var(--page-width) / -30);
+    padding-left: calc(var(--page-width) / 30);
+}
+
+.sub-soal-13 {
+    padding-left: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 200);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 200);
+}
+
+.penyelesaian-container-13 {
+    margin-top: calc(var(--page-width) / 80);
+}
+
+.penyelesaian-title-13 {
+    margin-bottom: calc(var(--page-width) / 200);
+}
+
+.section-title-13 {
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+/* ==========================================
+ *  3. LIST LANGKAH FBD & GAMBAR
+ *  ========================================== */
+.step-list-13 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 20);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 100);
+}
+
+.step-list-13 li {
+    text-align: justify;
+}
+
+.image-step-box-13 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 150);
+    margin-bottom: calc(var(--page-width) / 150);
+}
+
+.image-step-box-13 img {
+    max-width: 30%;
+    height: auto;
+    object-fit: contain;
+}
+
+.image-step-box-13b img {
+    max-width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+
+/* ==========================================
+ *  4. KATEX STYLING HALAMAN 13
+ *  ========================================== */
+.content-container-13 .katex {
+    font-size: 1.05em !important;
+    line-height: normal !important;
+}
+
+.content-container-13 .katex .msupsub {
+    font-size: 0.75em !important;
+}
+
+.math-step-13 .katex .numerator {
+    padding-bottom: calc(var(--page-width) / 250) !important;
+}
+
+.math-step-13 .katex .denominator {
+    padding-top: calc(var(--page-width) / 300) !important;
+}
+
+.math-step-13 .katex .frac-line {
+    border-bottom-width: calc(var(--page-width) / 750) !important;
+}

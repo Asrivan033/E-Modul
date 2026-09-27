@@ -1,0 +1,162 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 16 (RESPONSIF FULL VAR)
+ *  ========================================== */
+
+.content-container-16 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.4;
+    display: block !important;
+}
+
+.shifted-right-16 {
+    padding-left: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+.penyelesaian-container-16 {
+    width: 100%;
+}
+
+/* 1. PENOMORAN LANGKAH 2-5 */
+.step-list-16 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 20) !important;
+    list-style-type: decimal;
+}
+
+.step-list-16 > li {
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+.image-step-box-16 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 150);
+    margin-bottom: calc(var(--page-width) / 120);
+}
+
+.image-step-box-16 img {
+    width: calc(var(--page-width) / 6.5);
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+.image-step-box-16b img {
+    width: calc(var(--page-width) / 2);
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+.image-step-box-16c img {
+    width: calc(var(--page-width) / 5);
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+
+/* 2. BULLET SECTION (DESIMAL BERBASIS VAR) */
+.bullet-section-16 {
+    margin-top: calc(var(--page-width) / 40);
+    padding-left: calc(var(--page-width) / 38) !important;
+}
+
+.bullet-header-16 {
+    position: relative;
+    font-weight: bold;
+}
+
+.bullet-dot-16 {
+    position: absolute;
+    left: calc(var(--page-width) / -40);
+    top: 0;
+    font-size: calc(var(--page-width) / 42);
+}
+
+/* KONTEN BAWAH (SEJAJAR DENGAN TEKS 'MENENTUKAN') */
+.bullet-content-16 {
+    padding-left: 0;
+    margin-top: calc(var(--page-width) / 150);
+}
+
+/* Grid Diketahui, Ditanya, Jawab */
+.diketahui-grid-16 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 200);
+    margin-top: calc(var(--page-width) / 150);
+}
+
+.grid-row-16 {
+    display: flex;
+    align-items: flex-start;
+}
+
+.label-16 {
+    width: calc(var(--page-width) / 10);
+    flex-shrink: 0;
+}
+
+.colon-16 {
+    width: calc(var(--page-width) / 40);
+    flex-shrink: 0;
+}
+
+.value-16 {
+    flex-grow: 1;
+    line-height: 1.5;
+}
+
+/* 3. PECAHAN TABEL */
+.hitung-fca-container-16 {
+    margin-top: calc(var(--page-width) / 80);
+}
+
+.sub-title-fca-16 {
+    margin: 0 0 calc(var(--page-width) / 150) 0;
+}
+
+.math-fca-steps-16 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 120);
+}
+
+.math-row-16 {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 150);
+}
+
+.frac-table-16 {
+    display: inline-table;
+    vertical-align: middle;
+    border-collapse: collapse;
+    margin: 0 calc(var(--page-width) / 200);
+}
+
+.frac-table-16 td {
+    padding: 0 !important;
+    text-align: center;
+    line-height: 1.2 !important;
+}
+
+.num-cell-16 {
+    border-bottom: calc(var(--page-width) / 500) solid currentColor !important;
+    padding-bottom: calc(var(--page-width) / 300) !important;
+}
+
+.denom-cell-16 {
+    padding-top: calc(var(--page-width) / 300) !important;
+}
+
+.content-container-16 .katex {
+    font-size: calc(var(--page-width) / 46) !important;
+}
+
+.content-container-16 .katex .msupsub {
+    font-size: calc(var(--page-width) / 60) !important;
+}

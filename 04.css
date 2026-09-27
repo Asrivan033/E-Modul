@@ -1,0 +1,40 @@
+/* ==========================================
+   STYLING KHUSUS HALAMAN 4 (ELEMEN KETERAMPILAN)
+   ========================================== */
+
+.keterampilan-container-4 {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(2, 132, 199, 0.2);
+    border-radius: calc(var(--page-width) / 60);
+    padding: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 40);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cp-title-4 {
+    font-size: calc(var(--page-width) / 34);
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: calc(var(--page-width) / 40);
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: calc(var(--page-width) / 120);
+    display: inline;
+}
+
+.keterampilan-list-4 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 22);
+}
+
+.keterampilan-list-4 li {
+    font-size: calc(var(--page-width) / 44);
+    line-height: 1.5;
+    color: #1e293b;
+    text-align: justify;
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+.keterampilan-list-4 li strong {
+    color: #000000;
+    font-weight: 700;
+}

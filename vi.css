@@ -1,0 +1,17 @@
+/* ==========================================
+   STYLE HALAMAN 06 - PETA KONSEP
+   ========================================== */
+
+.peta-konsep-page {
+margin:auto;
+display: flex;
+    justify-content: flex-start;
+}
+.peta-konsep-page img {
+    max-width:100%;
+    height: auto;
+    object-fit: contain;
+}
+
+
+

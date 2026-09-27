@@ -1,0 +1,60 @@
+
+.pendahuluan-container {
+    display: flex;
+    margin-bottom:calc(var(--page-width) / 15);
+    border:none;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 90);
+}
+
+
+.section-badge {
+    background-color: #c8d8e4;
+    padding:calc(var(--page-width) / 90);
+    border-radius:calc(var(--page-width) / 90);
+    display: inline-block;
+    width: fit-content;
+    font-size: calc(var(--page-width) / 45);
+}
+
+.content-box {
+    border: 1px solid rgba(2, 132, 199, 0.2);
+    border-radius: calc(var(--page-width) / 60);
+    margin-bottom:calc(var(--page-width) / 80);
+    background-color: #ffffff;
+}
+
+.identity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: calc(var(--page-width) / 45);
+}
+
+.identity-table td {
+    padding: calc(var(--page-width) / 90);
+    vertical-align: top;
+}
+
+.identity-table td:nth-child(1) {
+    width: 35%;
+}
+
+.identity-table td:nth-child(2) {
+    width: 3%;
+}
+
+.description-text p {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    text-align: justify;
+    text-indent: 2em;
+    color: #1e293b;
+    margin-left:calc(var(--page-width) / 90);
+    margin-right:calc(var(--page-width) / 90);
+
+
+}
+
+.description-text p:last-child {
+    margin-bottom: 0;
+}

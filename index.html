@@ -1,0 +1,3538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Modern 3D A4 Flipbook</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- StPageFlip Library -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+ <!-- KaTeX CSS & JS (Sangat ringan & responsif di mobile) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+        delimiters: [
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ]
+    });"></script>
+
+
+
+
+    <script>
+        function updatePageWidth() {
+        const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse) and (max-width: 1024px)").matches;
+        const a = isMobile ? 0.456: 0.3;
+        const pageWidth1 = window.innerWidth * a;
+        document.documentElement.style.setProperty('--page-width', `${pageWidth1}px`);
+        /* Lebar garis vertikal kiri & kanan dibulatkan ke pixel BULAT*/
+        const lineWidth = Math.max(1.5, Math.round(pageWidth1 / 165));
+        document.documentElement.style.setProperty('--line-width', `${lineWidth}px`);
+        }
+        updatePageWidth();
+        window.addEventListener('resize', updatePageWidth);
+    </script>
+    <link rel="stylesheet" href="coverdepan.css">
+    <link rel="stylesheet" href="i.css">
+    <link rel="stylesheet" href="ii.css">
+    <link rel="stylesheet" href="iii.css">
+    <link rel="stylesheet" href="iv.css">
+    <link rel="stylesheet" href="vi.css">
+    <link rel="stylesheet" href="01.css">
+    <link rel="stylesheet" href="02.css">
+    <link rel="stylesheet" href="03.css">
+    <link rel="stylesheet" href="04.css">
+    <link rel="stylesheet" href="05.css">
+    <link rel="stylesheet" href="06.css">
+    <link rel="stylesheet" href="07.css">
+    <link rel="stylesheet" href="08.css">
+    <link rel="stylesheet" href="09.css">
+    <link rel="stylesheet" href="10.css">
+    <link rel="stylesheet" href="11.css">
+    <link rel="stylesheet" href="12.css">
+    <link rel="stylesheet" href="13.css">
+    <link rel="stylesheet" href="14.css">
+    <link rel="stylesheet" href="15.css">
+    <link rel="stylesheet" href="16.css">
+    <link rel="stylesheet" href="17.css">
+    <link rel="stylesheet" href="18.css">
+    <link rel="stylesheet" href="19.css">
+    <link rel="stylesheet" href="20.css">
+    <link rel="stylesheet" href="21.css">
+    <link rel="stylesheet" href="22.css">
+    <link rel="stylesheet" href="23.css">
+    <link rel="stylesheet" href="24.css">
+    <link rel="stylesheet" href="25.css">
+    <link rel="stylesheet" href="26.css">
+    <link rel="stylesheet" href="27.css">
+
+
+    <style>
+        * {
+            box-sizing: border-box; margin: 0; padding: 0; font-family: 'Times New Roman', Times, serif;}
+
+                    /* Kunci / Peringatan saat HP di-rotate ke Landscape */
+            @media screen and (max-width: 900px) and (orientation: landscape) {
+            /* OPSI A: Tampilkan pesan agar HP tetap tegak (Portrait) */
+            body::before {
+                content: "Harap putar perangkat Anda kembali ke posisi tegak (Portrait).";
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.95);
+                color: #ffffff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-size: 1.1rem;
+                font-weight: 600;
+                padding: 20px;
+                z-index: 9999;
+            }
+        }
+        body {
+            background-image: url('image/1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--text-main);
+        }
+        .viewport {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: calc(100vh - 80px);
+            overflow: visible;
+            overflow-x: clip; /* bayangan/halaman yang terbalik tidak boleh melebar melewati layar, agar Chrome HP tidak zoom-out otomatis */
+            transform: translateY(2%);
+        }
+        .flip-book {box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); display: none; transform: translateY(-10px);}
+        .page { background-color: #ffffff; color: #1e293b; overflow: hidden; container-type: inline-size;}
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            background-color: #ffffff;
+            border: 1px solid #ffffff;
+            /* SVG WAVE GRADIEN ATAS & BAWAH */
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='gradTop1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2338bdf8;stop-opacity:0.9' /%3E%3Cstop offset='100%25' style='stop-color:%23818cf8;stop-opacity:0.95' /%3E%3C/linearGradient%3E%3ClinearGradient id='gradTop2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230284c7;stop-opacity:0.95' /%3E%3Cstop offset='100%25' style='stop-color:%23c084fc;stop-opacity:0.9' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,0 L500,0 L500,100 C360,165 180,40 0,120 Z' fill='url(%23gradTop1)'%3E%3C/path%3E%3Cpath d='M0,0 L500,0 L500,60 C330,135 130,25 0,90 Z' fill='url(%23gradTop2)'%3E%3C/path%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 150' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='gradBottom' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%236366f1;stop-opacity:0.95' /%3E%3Cstop offset='100%25' style='stop-color:%23ec4899;stop-opacity:0.9' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,70 C160,15 340,110 500,40 L500,150 L0,150 Z' fill='url(%23gradBottom)'%3E%3C/path%3E%3C/svg%3E");
+            background-position: top center, bottom center;
+            background-size: 100% 18%, 100% 15%;
+            background-repeat: no-repeat;
+        }
+        /* Halaman Kiri (Genap): Bayangan gelap berada di SISI KANAN */
+        .page:nth-child(even) .page-content {
+            box-shadow: inset -15px 0 18px -6px rgba(0, 0, 0, 0.25);
+        }
+        /* Halaman Kanan (Ganjil): Bayangan gelap berada di SISI KIRI */
+        .page:nth-child(odd) .page-content {
+            box-shadow: inset 15px 0 18px -6px rgba(0, 0, 0, 0.25);
+        }
+        /* GARIS VERTIKAL KIRI */
+        .page-content::before {
+            content: "";
+            position: absolute;
+            left:  11%;      /* Batas Margin Kiri (2.54 cm) */
+            top: 12.2%;       /* Ujung Atas Garis Kiri */
+            bottom: 9.3%;     /* Ujung Bawah Garis Kiri */
+            width: var(--line-width);
+            background: linear-gradient(to bottom,
+                rgba(2, 132, 199, 0.85),
+                rgba(99, 102, 241, 0.85),
+                rgba(168, 85, 247, 0.85));
+            z-index: 20;
+            isolation: isolate;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+        }
+        /* GARIS VERTIKAL KANAN */
+        .page-content::after {
+            content: "";
+            position: absolute;
+            right:11%;     /* Batas Margin Kanan (2.54 cm) */
+            top: 14%;         /* Ujung Atas Garis Kanan */
+            bottom: 9%;       /* Ujung Bawah Garis Kanan */
+            width: var(--line-width);
+            background: linear-gradient(to bottom,
+                rgba(2, 132, 199, 0.85),
+                rgba(99, 102, 241, 0.85),
+                rgba(168, 85, 247, 0.85));
+            z-index: 20;
+            isolation: isolate;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+        }
+        /* Hapus Garis Vertikal & Bayangan Lipatan pada Cover Depan & Belakang */
+        .page.cover-front .page-content::before,
+        .page.cover-front .page-content::after,
+        .page.cover-back .page-content::before,
+        .page.cover-back .page-content::after {
+            display: none;
+        }
+        .page.cover-front .page-content,
+        .page.cover-back .page-content {
+            box-shadow: none !important;
+        }
+        /* MARGIN NORMAL STANDAR A4 (2.54 CM DI SEMUA SISI) */
+        .page:nth-child(even) .page-content,
+        .page:nth-child(odd) .page-content {
+            /* Format: padding: [Atas] [Kanan] [Bawah] [Kiri] */
+            padding: 10% 13% 8.55% 13%;
+            box-sizing: border-box;
+        }
+
+        /* OVERRIDE TAMPILAN COVER DEPAN & BELAKANG */
+        .page.cover-front .page-content {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('image/1.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 12% !important;
+        }
+        .page.cover-back .page-content {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 12% !important;}
+        .page-header {
+            font-size: calc(var(--page-width) / 48);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* 1. Mendorong elemen keluar dari margin halaman */
+            margin-left:calc(var(--page-width) / -8.5);          /* Sesuaikan nilai ini dengan ukuran margin kiri halaman Anda */
+            margin-right:calc(var(--page-width) / -8.5);        /* Sesuaikan nilai ini dengan ukuran margin kanan halaman Anda */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 5;
+            bottom:  calc(var(--page-width) / 13);
+            /* Border membentang mengikuti lebar baru */
+            border:none;
+        }
+        .page-header .header-left-logos {display: flex; align-items: center; gap: calc(var(--page-width) / 150);}
+        .page-header .header-left-logos img {height: calc(var(--page-width) / 12); width: calc(var(--page-width) / 12);}
+        .page-header .header-right {text-align: right; white-space: nowrap;}
+        .page-footer {
+            position: absolute;
+            bottom: calc(var(--page-width) / 25);
+            left: 0;
+            right: 0;
+            width: 100%;
+            font-size: calc(var(--page-width) / 50);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 20;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border: none;
+            padding: 0 calc(var(--page-width) / 40);
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        /* Kolom Kiri: Lebar fleksibel mengikuti teks & memanjang */
+        .page-footer .footer-left {
+            text-align: left;
+            white-space: nowrap;       /* Mencegah teks patah/turun ke baris baru */
+            z-index: 2;                /* Memastikan teks berada di atas layer tengah */
+            max-width: 40%;            /* Batas maksimal memanjang agar tidak menutupi tengah */
+            overflow: hidden;
+            text-overflow: ellipsis;   /* Beri titik-titik (...) jika teks terlalu panjang */
+        }
+
+        /* Kolom Tengah: Dikunci MUTLAK tepat di 50% tengah kertas */
+        .page-footer .footer-center {position: absolute;left: 50%;transform: translateX(-50%);text-align: center;z-index: 1;}
+        /* Kolom Kanan: Lebar fleksibel rapat kanan */
+        .page-footer .footer-right {text-align: right;white-space: nowrap;z-index: 2;margin-left: auto;         /* Mendorong elemen tetap rapat di pinggir kanan */
+        }
+        .cover-front h1 {font-size: calc(var(--page-width) / 47);font-weight: 800;color: #38bdf8;}
+        /* NAVIGASI & INDIKATOR */
+        .page-indicator {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 4px 16px;
+            border-radius: 99px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-main);
+            z-index: 100;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        /* INPUT NOMOR HALAMAN (menggantikan angka statis, agar bisa diketik manual) */
+        #page-input {
+            width: var(--page-input-w, 2ch);
+            background: transparent;
+            border: none;
+            outline: none;
+            color: inherit;
+            font: inherit;
+            font-weight: 700;
+            text-align: center;
+            padding: 0;
+            -moz-appearance: textfield;
+        }
+        #page-input::-webkit-outer-spin-button,
+        #page-input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+        #page-input:focus {color: var(--accent-color, #38bdf8);}
+        .btn-icon {
+            position: fixed;
+            bottom: 4px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        .btn-icon:hover {background: rgba(255, 255, 255, 0.2);color: var(--accent-color);transform: scale(1.1);}
+        #btn-prev {left: calc(50% - 380px + 20px);}
+        #btn-next {right: calc(50% - 380px + 20px);}
+        #btn-first {left: calc(50% - 380px - 20px);}
+        #btn-last {right: calc(50% - 380px - 20px);}
+        #zoom-wrapper {display: flex;justify-content: center;align-items: center;transform-origin: center center;transition: transform 0.25s ease;touch-action: none;}
+        #zoom-wrapper.zoomed {
+            cursor: grab;
+            touch-action: none; /* supaya drag jadi pan, bukan scroll halaman browser */
+            user-select: none;  /* cegah teks ke-select tak sengaja saat menggeser */
+        }
+        #zoom-wrapper.zoomed.panning {cursor: grabbing;transition: none;} /* nonaktifkan transisi saat drag aktif biar tidak lag/ngambang */
+        #top-toolbar {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+        #top-toolbar .btn-icon {
+            position: static; /* override posisi fixed bawaan .btn-icon */
+        }
+        @media (max-width: 800px) {
+            #top-toolbar {
+                top: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+            #top-toolbar .btn-icon {
+                width: 28px;
+                height: 28px;
+            }
+        }
+        #search-panel {
+            position: fixed;
+            top: 16px;
+            right: 68px;
+            width: 260px;
+            max-height: 65vh;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            z-index: 110;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+        #search-panel.open {
+            display: flex;
+        }
+        #search-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            color: var(--text-main);
+        }
+        #search-panel-title {font-size: 0.75rem;font-weight: 700;letter-spacing: 0.03em;}
+        #btn-search-close {position: static;width: 22px;height: 22px;
+        }
+        #search-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            outline: none;
+            font-size: 0.8rem;
+        }
+        #search-meta {font-size: 0.68rem;color: var(--text-main);opacity: 0.7;}
+        #search-results {
+            overflow-y: auto;
+            max-height: 45vh;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .search-result-item {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            border-radius: 8px;
+            padding: 6px 8px;
+            color: var(--text-main);
+            font-size: 0.72rem;
+            line-height: 1.35;
+            cursor: pointer;
+        }
+        .search-result-item:hover {background: rgba(255, 255, 255, 0.16);}
+        .search-result-item b {display: block;font-size: 0.68rem;opacity: 0.8;margin-bottom: 2px;}
+        .search-result-item mark {background: #fde047;color: #1e293b;border-radius: 2px;padding: 0 1px;}
+        @media (max-width: 800px) {#search-panel {top: 10px;right: 10px;left: 10px;width: auto;}}
+        /* ===== OVERLAY LIHAT SEMUA HALAMAN ===== */
+        #allpages-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+        #allpages-overlay.open {display: flex;}
+        #allpages-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            width: min(920px, 100%);
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #allpages-panel-header {display: flex;align-items: center;justify-content: space-between;padding: 14px 18px;border-bottom: 1px solid rgba(255, 255, 255, 0.12);color: var(--text-main);}
+        #allpages-panel-title {font-size: 0.9rem;font-weight: 700;letter-spacing: 0.02em;}
+        #btn-allpages-close {position: static;width: 26px;height: 26px;}
+        #allpages-grid {padding: 18px;overflow-y: auto;display: grid;grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));gap: 14px;}
+        .allpages-thumb {display: flex;flex-direction: column;align-items: center;gap: 4px;cursor: pointer;background: none;border: none;padding: 0;color: var(--text-main);font: inherit;}
+        .allpages-thumb-frame {position: relative;width: 100%;aspect-ratio: 1 / 1.414;border-radius: 6px;overflow: hidden;border: 2px solid rgba(255, 255, 255, 0.15);background: #0f172a;transition: border-color 0.15s ease, transform 0.15s ease;}
+        .allpages-thumb:hover .allpages-thumb-frame {border-color: #38bdf8;transform: translateY(-2px);}
+        .allpages-thumb-frame .thumb-clone {position: absolute;top: 0;left: 0;transform-origin: top left;pointer-events: none;}
+        .allpages-thumb-label {font-size: 0.65rem;opacity: 0.8;}
+        @media (max-width: 800px) {#allpages-overlay {padding: 12px;}
+            #allpages-grid {grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));gap: 10px;}}
+        /* PEMBARUAN POSISI MOBILE (Lebar Layar Maks 800px) */
+        @media (max-width: 800px) {#btn-first { left: 16px; }#btn-last { right: 16px; }
+            #btn-prev { left: 56px; }
+            #btn-next { right: 56px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport">
+        <div id="zoom-wrapper">
+        <div id="book" class="flip-book">
+            <div class="page cover-front"><!-- Cover Depan -->
+                <div class="page-content cover-content">
+                    <div class="cover-top-logo"><!-- Logo Kurikulum Merdeka (Kiri Atas) -->
+                        <img src="image/kurikulum-merdeka.svg" alt="Kurikulum Merdeka">
+                        <span>Kurikulum<br>Merdeka</span>
+                    </div>
+                    <div class="cover-portrait-wrapper"><!-- Foto Tokoh Coulomb / Ilustrasi (Kanan Atas) -->
+                        <img src="image/coulomb.jpeg" alt="Charles-Augustin de Coulomb" class="cover-portrait-img">
+                    </div>
+                    <div class="dots-pattern dots-left"></div><!-- Pattern Titik-Titik Hiasan (Dekorasi CSS) -->
+                    <div class="dots-pattern dots-right"></div>
+                    <div class="cover-title-group"><!-- Judul E-Modul (Tengah Kiri) -->
+                        <span class="sub-title">E-Modul</span>
+                        <span class="italic-title">Free Body Diagram (FBD)</span>
+                        <h1 class="main-title">Hukum Coulomb &<br>Medan Listrik</h1>
+                    </div>
+                    <div class="cover-badge-kelas"><!-- Badge Kelas XII (Kanan Tengah) -->
+                        <span>KELAS<br>XII</span>
+                    </div>
+                    <div class="cover-author-info"><!-- Informasi Penyusun & Dosen Pembimbing (Kiri Bawah) -->
+                        <div class="info-block">
+                            <p class="label">Penyusun:</p>
+                            <p class="name">Siti Fatma Wati</p>
+                            <p class="id-num">A1K121021</p>
+                        </div>
+                        <div class="info-block" style="margin-top: calc(var(--page-width) / 35);">
+                            <p class="label">Dosen Pembimbing:</p>
+                            <p class="name">Dr. Amiruddin Takda, M.Si</p>
+                            <p class="name">Dr. Muhammad Anas, M.Si</p>
+                        </div>
+                    </div>
+                    <div class="cover-bottom-footer"><!-- Footer Cover (Atribut Instansi & Logo) -->
+                        <div class="instansi-logos">
+                            <img src="image/logo1.png" alt="Kemdikbud">
+                            <img src="image/logo2.png" alt="UHO">
+                        </div>
+                        <div class="instansi-text">
+                            Kementerian Pendidikan Tinggi, Sains dan Teknologi<br>
+                            Universitas Halu Oleo, Jurusan Pendidikan Fisika<br>
+                            2026
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Halaman i -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="modul-cover">
+                        <div class="logo-group">
+                            <img src="image/logo1.png" alt="Logo Kemdikbud">
+                            <img src="image/logo2.png" alt="Logo Universitas Halu Oleo">
+                        </div>
+                        <div class="title-section">
+                            <h1>
+                                E-MODUL <i>FREE BODY DIAGRAM</i> (FBD)<br>
+                                HUKUM COULOMB & MEDAN LISTRIK<br>
+                                KELAS XII SMA
+                            </h1>
+                        </div>
+                        <div class="author-section">
+                            <p class="label">Penyusun:</p>
+                            <p class="name">Siti Fatma Wati</p>
+                        </div>
+                        <div class="advisor-section">
+                            <p class="label">Dosen Pembimbing:</p>
+                            <p class="name">Dr. Amiruddin Takda, M.Si</p>
+                            <p class="name">Dr. Muhammad Anas, M.Si</p>
+                        </div>
+                    </div>
+                    <div class="page-footer" style="color: #ffffff;font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left"></span>
+                        <span class="footer-center">i</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+<!-- Halaman ii -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+                    <div class="title-pengantar">KATA PENGANTAR</div>
+                    <div class="salam">
+                        Assalamu’Alaikum Warahmatullahi Wabarakatuh
+                    </div>
+                    <div class="paragraf02">
+                       <p>
+                            Puji syukur ke hadirat Allah Subhanahu Wata’Ala atas segala rahmat dan karunia-Nya sehingga E-Modul Free Body Diagram Hukum Coulomb & Medan Listrik ini dapat disusun dengan baik. E-modul ini disusun sebagai bahan ajar yang diharapkan mampu membantu peserta didik memahami konsep dasar interaksi listrik antara dua muatan.
+                        </p>
+                        <p>
+                            Hukum Coulomb dan medan listrik merupakan konsep fundamental dalam kajian listrik statis. Pemahaman yang baik dalam materi ini akan menjadi landasan penting dalam mempelajari materi-materi lanjutan seperti potensial listrik, dan gaya elektromagnetik. Oleh karena itu, penyampaian materi dalam modul ini dirancang secara sistematis, dilengkapi contoh soal, latihan, serta penjelasan yang mudah dipahami.
+                        </p>
+                        <p>
+                            Penyusunan modul ini tentu tidak terlepas dari bantuan berbagai pihak. Untuk
+                            itu, penyusun mengucapkan terima kasih kepada seluruh dosen, rekan sejawat, dan
+                            pihak lain yang telah memberikan dukungan, kritik, maupun saran yang konstruktif.
+                            Semoga modul ini dapat memberikan manfaat bagi peserta didik maupun pendidik
+                            dalam proses pembelajaran fisika.
+                        </p>
+                        <p>
+                            Penyusun menyadari bahwa e-modul ini masih memiliki kekurangan. Oleh
+                            sebab itu, kritik dan saran yang bersifat membangun sangat diharapkan demi
+                            penyempurnaan di masa mendatang.
+                        </p>
+                    </div>
+                    <div class="salam">
+                        Wassalamu’Alaikum Warahmatullahi Wabarakatuh
+                    </div>
+                    <div class="role-label2">
+                        Kendari&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Agustus 2026
+                    </div>
+                    <div class="person-name2">
+                        Penulis
+                    </div>
+
+
+                    <div class="page-footer" style="color: #ffffff;font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb & Medan Listrik</span>
+                        <span class="footer-center">ii</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Halaman iii (DAFTAR ISI) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+                    <div class="pengantar-container">
+                        <div class="title-pengantar">DAFTAR ISI</div>
+                        <div class="toc-item"><span class="title bold">HALAMAN JUDUL</span><span class="hal">i</span></div>
+                        <div class="toc-item"><span class="title bold">KATA PENGANTAR</span><span class="hal">ii</span></div>
+                        <div class="toc-item"><span class="title bold">DAFTAR ISI</span><span class="hal">iii</span></div>
+                        <div class="toc-item"><span class="title bold">PETUNJUK PENGGUNAAN E-MODUL</span><span class="hal">iv</span></div>
+                        <div class="toc-item"><span class="title bold">PETA KONSEP</span><span class="hal">vi</span></div>
+                        <div class="toc-item"><span class="title bold">PENDAHULUAN</span><span class="hal">1</span></div>
+                        <div class="toc-item indent"><span class="title">A. Identitas E-Modul</span><span class="hal">1</span></div>
+                        <div class="toc-item indent"><span class="title">B. Deskripsi Singkat E-Modul</span><span class="hal">2</span></div>
+                        <div class="toc-item indent"><span class="title">C. Pembelajaran Langsung</span><span class="hal">3</span></div>
+                        <div class="toc-item indent"><span class="title">D. Profil Pelajar Pancasila</span><span class="hal">3</span></div>
+                        <div class="toc-item indent"><span class="title">E. Capaian Pembelajaran</span><span class="hal">3</span></div>
+                        <div class="toc-item indent"><span class="title">F. Indikator Pencapaian Kompetensi</span><span class="hal">5</span></div>
+                        <div class="toc-item"><span class="title bold">KEGIATAN PEMBELAJARAN I HUKUM COULOMB</span><span class="hal">6</span></div>
+                        <div class="toc-item indent"><span class="title">A. Muatan Listrik</span><span class="hal"></span></div>
+                        <div class="toc-item indent"><span class="title">B. Hukum Coulomb</span><span class="hal">8</span></div>
+                        <div class="toc-item indent"><span class="title">C. Rangkuman</span><span class="hal">13</span></div>
+                        <div class="toc-item indent"><span class="title">D. Latihan Soal</span><span class="hal">14</span></div>
+                        <div class="toc-item indent"><span class="title">E. Penilaian Diri</span><span class="hal">15</span></div>
+                        <div class="toc-item"><span class="title bold">KEGIATAN PEMBELAJARAN II MEDAN LISTRIK</span><span class="hal">16</span></div>
+                        <div class="toc-item indent"><span class="title">A. Medan Listrik</span><span class="hal"></span></div>
+                        <div class="toc-item indent"><span class="title">B. Rangkuman</span><span class="hal">24</span></div>
+                        <div class="toc-item indent"><span class="title">C. Latihan Soal</span><span class="hal">25</span></div>
+                        <div class="toc-item indent"><span class="title">D. Penilaian Diri</span><span class="hal">25</span></div>
+                        <div class="toc-item"><span class="title bold">EVALUASI</span><span class="hal">27</span></div>
+                        <div class="toc-item"><span class="title bold">GLOSARIUM</span><span class="hal">29</span></div>
+                        <div class="toc-item"><span class="title bold">DAFTAR PUSTAKA</span><span class="hal">30</span></div>
+                        <div class="toc-item"><span class="title bold">LAMPIRAN</span><span class="hal"></span></div>
+                        <div class="toc-item"><span class="title bold">PROFIL PENULIS</span><span class="hal">31</span></div>
+                    </div>
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb & Medan Listrik</span>
+                        <span class="footer-center">iii</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+           <!-- HALAMAN iv PETUNJUK PENGGUNAAN E-MODUL-->
+            <div class="page">
+                <div class="page-content">
+
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">
+                            E-Modul Free Body Diagram
+                        </div>
+                    </div>
+                    <!-- =================================================
+                        ISI HALAMAN iv
+                        ================================================= -->
+                    <div class="title-pengantar"> PETUNJUK PENGGUNAAN E-MODUL</div>
+                    <div class="petunjuk04">
+                        <p class="pengantar04">
+                            Adapun petunjuk penggunaan dari
+                            <i>e-modul free body diagram</i>
+                            Hukum Coulomb dan medan listrik adalah sebagai berikut.
+                        </p>
+                        <!-- =================================================
+                            PETUNJUK PENGGUNAAN
+                            ================================================= -->
+                        <div class="langkah04">
+                            <!-- PETUNJUK 1 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    1.
+                                </span>
+                                <p>
+                                    Persiapkan diri Anda sebelum memulai belajar
+                                    dengan menyiapkan segala kebutuhan belajar
+                                    termasuk <i>handphone</i> dan laptop yang
+                                    memiliki koneksi internet yang memadai.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 2 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    2.
+                                </span>
+                                <p>
+                                    Bacalah do’a sebelum memulai pembelajaran
+                                    fisika terkait materi Hukum Coulomb dan
+                                    medan listrik.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 3 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    3.
+                                </span>
+                                <p>
+                                    Gunakan fitur tombol yang ada di bawah ini
+                                    untuk mempermudah penggunaan
+                                    <i>e-modul free body diagram</i>
+                                    Hukum Coulomb &amp; medan listrik.
+                                    Adapun fitur-fitur yang digunakan pada
+                                    Aplikasi <i>Flip Pdf Professional</i>
+                                    antara lain adalah sebagai berikut.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- =================================================
+                            FITUR TOMBOL
+                            ================================================= -->
+                        <div class="fitur04">
+                            <!-- ZOOM IN -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="zoom-in"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Zoom In</i>
+                                    </b>
+                                    berfungsi untuk memperbesar tampilan
+                                    dan memperkecil tampilan modul
+                                </div>
+                            </div>
+                            <!-- ZOOM OUT -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="zoom-out"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Zoom out</i>
+                                    </b>
+                                    berfungsi untuk memperkecil tampilan
+                                    pada layar
+                                </div>
+                            </div>
+                            <!-- BACKWARD -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="layout-grid"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Thumbnails</i>
+                                    </b>
+                                    berfungsi menampilkan semua
+                                    halaman flipbook
+                                </div>
+                            </div>
+                            <!-- FORWARD -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="share-2"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Share</i>
+                                    </b>
+                                    berfungsi untuk membagikan link e-modul
+                                </div>
+                            </div>
+                            <!-- PREVIOUS PAGE -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="arrow-left"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Previous page</i>
+                                    </b>
+                                    berfungsi untuk membuka halaman sebelumnya
+                                </div>
+                            </div>
+                            <!-- NEXT PAGE -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="arrow-right"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Next page</i>
+                                    </b>
+                                    berfungsi membuka halaman selanjutnya
+                                </div>
+                            </div>
+                            <!-- FIRST -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="skip-back"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>First</i>
+                                    </b>
+                                    berfungsi untuk kembali ke halaman awal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =================================================
+                        FOOTER
+                        ================================================= -->
+                    <div class="page-footer">
+                        <span class="footer-left">
+                            Hukum Coulomb &amp; Medan Listrik
+                        </span>
+                        <span class="footer-center">
+                            iv
+                        </span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!--halaman v-->
+            <div class="page">
+                <div class="page-content">
+                    <!-- HEADER HALAMAN -->
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">
+                            E-Modul Free Body Diagram
+                        </div>
+                    </div>
+
+                            <!--=================================================
+                            PETUNJUK PENGGUNAAN
+                            ================================================= -->
+                         <div class="langkah04" style="margin-top: 6px;">
+                        <div class="fitur04">
+                            <!-- last -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="skip-forward"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b>
+                                        <i>Last</i>
+                                    </b>
+                                    berfungsi untuk menampilkan halaman terakhir
+                                </div>
+                            </div>
+                            <!-- FULLSCREEN -->
+                            <div class="fitur-item04">
+                                <div class="fitur-icon04">
+                                    <i data-lucide="maximize"></i>
+                                </div>
+                                <div class="fitur-keterangan04">
+                                    <b><i>Fullscreen</i></b> berfungsi menampilkan e-modul secara layar penuh
+                                </div>
+                            </div>
+                            <!-- PETUNJUK 1 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    4.
+                                </span>
+                                <p>
+                                    Bacalah capaian pembelajaran dan tujuan pembelajaran yang tertera pada e-modul.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 5 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    5.
+                                </span>
+                                <p>
+                                    Bacalah materi yang disajikan pada e-modul dengan cermat dan teliti.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 6 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    6.
+                                </span>
+                                <p>
+                                    Gunakan fitur video dan audio yang tersedia di dalam e-modul untuk lebih memahami konten materi yang disajikan sesuai dengan pokok materinya.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 7 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    7.
+                                </span>
+                                <p>
+                                  Kerjakan latihan soal yang telah disediakan dengan baik dan benar.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 8 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    8.
+                                </span>
+                                <p>
+                                   Isilah "Penilaian Diri" untuk mengetahui tingkat pemahaman Anda di setiap akhir pembelajaran.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 9 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    9.
+                                </span>
+                                <p>
+                                  Setelah menyelesaikan seluruh kegiatan pembelajaran, kerjakan soal evaluasi untuk mengetahui tingkat pemahaman Anda setelah mempelajari materi Hukum Coulomb dan medan listrik.
+                                </p>
+                            </div>
+                            <!-- PETUNJUK 10 -->
+                            <div class="langkah-item04">
+                                <span class="nomor04">
+                                    10.
+                                </span>
+                                <p><b>
+                                   Selamat belajar.
+                                </b></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- =================================================
+                        FOOTER
+                        ================================================= -->
+                    <div class="page-footer">
+                        <span class="footer-left">
+                            Hukum Coulomb &amp; Medan Listrik
+                        </span>
+                        <span class="footer-center">
+                            v
+                        </span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Halaman vi -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Peta Konsep -->
+                    <div class="title-pengantar">PETA KONSEP</div>
+                    <img src="image/vi.png" alt="Kurikulum Merdeka">
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">vi</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Halaman 1 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <div class="pendahuluan-container">
+                        <!-- BANNER JUDUL -->
+                        <div class="title-pengantar">PENDAHULUAN</div>
+
+                        <!-- SEKSI A: IDENTITAS MODUL -->
+                        <div class="section-badge">A. Identitas Modul</div>
+                        <div class="content-box">
+                            <table class="identity-table">
+                                <tr>
+                                    <td>Mata Pelajaran</td>
+                                    <td>:</td>
+                                    <td>Fisika</td>
+                                </tr>
+                                <tr>
+                                    <td>Kelas/Semester</td>
+                                    <td>:</td>
+                                    <td>XII/Ganjil</td>
+                                </tr>
+                                <tr>
+                                    <td>Alokasi Waktu</td>
+                                    <td>:</td>
+                                    <td>2 x 2 Jam Pelajaran @45 menit</td>
+                                </tr>
+                                <tr>
+                                    <td>Judul E-Modul</td>
+                                    <td>:</td>
+                                    <td>Hukum Coulomb &amp; Medan Listrik</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- SEKSI B: DESKRIPSI SINGKAT -->
+                        <div class="section-badge">B. Deskripsi Singkat E-Modul</div>
+                        <div class="content-box description-text">
+                            <p>
+                                E-modul <i>Free Body Diagram</i> Hukum Coulomb &amp; Medan Listrik adalah sebuah e-modul yang memuat materi yang terdapat dalam pelajaran fisika, yaitu Listrik Statis. E-modul ini dikembangkan dengan menggunakan <i>Software Flip PDF Professional</i>. E-modul ini berisi materi tentang Hukum Coulomb dan Medan Listrik yang merupakan materi yang diajarkan di kelas XII Semester Ganjil. E-modul ini disusun untuk membantu peserta didik dalam belajar secara mandiri, tanpa perlu adanya bimbingan belajar yang dilakukan oleh Guru.
+                            </p>
+                            <p>
+                                Dalam mempelajari Hukum Coulomb dan Medan Listrik, peserta didik sering mengalami kesulitan menentukan arah gaya atau arah medan ketika terdapat lebih dari satu muatan. Oleh karena itu, modul ini menggunakan <i>free body diagram</i> (FBD) sebagai teknik visualisasi untuk membantu peserta didik menganalisis arah gaya listrik sebelum melakukan perhitungan matematis.
+                            </p>
+                            <p>
+                                Melalui pendekatan ini, peserta didik diharapkan mampu menyelesaikan permasalahan Hukum Coulomb dan Medan Listrik secara lebih sistematis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">1</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Halaman 2-->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Judul Seksi (Tidak ikut bergeser ke kanan) -->
+                    <div class="section-badge">C. Pembelajaran Langsung</div>
+
+                    <!-- Paragraf Pengantar (Sudah bergeser ke kanan) -->
+                    <p class="description-text-08">
+                        Sintaks model pembelajaran langsung menurut Risma &amp; Surya (2020) adalah sebagai berikut.
+                    </p>
+
+                    <!-- Judul Tabel (Sudah bergeser ke kanan) -->
+                    <div class="table-title-08">
+                        <strong>Tabel 1</strong> Sintaks Model Pembelajaran Langsung
+                    </div>
+
+                    <!-- Tabel Sintaks (Sudah bergeser ke kanan & teresize pas) -->
+                    <table class="sintaks-table-08">
+                        <thead>
+                            <tr>
+                                <th class="col-tahap-header">Tahap</th>
+                                <th>Kegiatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-tahap">Fase 1</td>
+                                <td>
+                                    Menyampaikan tujuan dan mempersiapkan peserta didik
+                                    <span class="red-italic-08">
+                                        E-Modul menyajikan tujuan pembelajaran dan pentingnya penggunaan free body diagram (FBD) untuk menganalisis vektor gaya dan medan serta memotivasi siswa dengan fenomena fisik, seperti gejala listrik statis pada dua balon yang digosok pada kain
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-tahap">Fase 2</td>
+                                <td>
+                                    Mendemonstrasikan pengetahuan dan keterampilan
+                                    <span class="red-italic-08">
+                                        E-Modul menampilkan demonstrasi visual langkah-langkah menggambar free body diagram serta menyajikan materi Hukum Coulomb dan Medan Listrik
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-tahap">Fase 3</td>
+                                <td>
+                                    Membimbing pelatihan
+                                    <span class="red-italic-08">
+                                        Peserta didik mengerjakan latihan terbimbing di dalam e-modul untuk menggambar vektor FBD pada muatan/titik pengamatan dan berlatih menentukan resultan vektor secara bertahap
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-tahap">Fase 4</td>
+                                <td>
+                                    Mengecek pemahaman dan memberikan umpan balik
+                                    <span class="red-italic-08">
+                                        Peserta didik menyelesaikan soal kuis singkat berbentuk google form yang memberikan umpan balik otomatis
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-tahap">Fase 5</td>
+                                <td>
+                                    Memberikan kesempatan untuk pelatihan
+                                    <span class="red-italic-08">
+                                        Peserta didik mengerjakan soal latihan secara mandiri dan menerapkan free body diagram secara utuh untuk menghitung besar dan arah gaya Coulomb serta medan listrik tanpa bantuan langsung
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">2</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Halaman 3 (D. Profil Pelajar Pancasila & E. Capaian Pembelajaran) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <div class="section-badge">D. Profil Pelajar Pancasila</div>
+                    <div class="content-box-09 ppp-container-09">
+                        <ol class="ppp-list-09">
+                            <li>Beriman, bertakwa kepada Tuhan Yang Maha Esa, dan berakhlak mulia</li>
+                            <li>Berkebhinekaan global</li>
+                            <li>Bergotong-royong</li>
+                            <li>Mandiri</li>
+                            <li>Bernalar kritis</li>
+                            <li>Kreatif</li>
+                        </ol>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/National_emblem_of_Indonesia_Garuda_Pancasila.svg" alt="Garuda Pancasila" class="garuda-img-09">
+                    </div>
+
+                    <div class="section-badge" style="margin-top: 5px;">E. Capaian Pembelajaran</div>
+                    <div class="content-box-09">
+                        <div class="cp-title-09">Elemen Pemahaman Fisika</div>
+                        <p class="cp-text-09">
+                            Diakhir fase F, peserta didik mampu menerapkan konsep dan prinsip vektor, kinematika dan dinamika gerak, fluida, gejala gelombang bunyi dan gelombang cahaya dalam menyelesaikan masalah, serta menerapkan prinsip dan konsep kalor dan termodinamika, dengan berbagai perubahannya dalam mesin kalor. Peserta didik mampu menerapkan konsep dan prinsip kelistrikan (baik statistik maupun dinamis) dan kemagnetan dalam berbagai penyelesaian masalah dan berbagai produk teknologi, menerapkan konsep dan prinsip gejala gelombang elektromagnetik dalam menyelesaikan masalah. Peserta didik mampu menganalisis keterkaitan antara berbagai besaran fisis pada teori relativitas khusus, gejala kuantum dan menunjukkan penerapan konsep fisika inti dan radioaktivitas dalam kehidupan sehari-hari dan teknologi. Peserta didik mampu memberi penguatan pada aspek fisika sesuai dengan minat untuk ke perguruan tinggi yang berhubungan dengan bidang fisika. Melalui kerja ilmiah juga dibangun sikap ilmiah dan profil pelajar pancasila khususnya mandiri, inovatif, bernalar kritis, kreatif dan bergotong royong.
+                        </p>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">3</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 4 (Elemen Keterampilan Fisika) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <div class="keterampilan-container-4">
+                        <div class="cp-title-09">Elemen Keterampilan Fisika</div>
+
+                        <ol class="keterampilan-list-4">
+                            <li>
+                                <strong>Mengamati,</strong> Peserta didik mampu menjelaskan Hukum Coulomb dan medan listrik secara konseptual. Peserta didik dapat mengidentifikasi jenis muatan, gaya tarik dan gaya tolak yang bekerja pada muatan.
+                            </li>
+                            <li>
+                                <strong>Mempertanyakan dan memprediksi,</strong> Peserta didik mampu merumuskan permasalahan yang ada dan mampu mengajukan pertanyaan kunci untuk menyelesaikan masalah, seperti: Mengapa muatan sejenis saling tolak-menolak dan muatan tak sejenis saling tarik menarik.
+                            </li>
+                            <li>
+                                <strong>Merencanakan dan melakukan penyelidikan,</strong> Peserta didik dapat merumuskan tujuan, dan menggunakan referensi dalam perencanaan penelitian. Peserta didik dapat menentukan langkah-langkah kerja dan cara mengumpulkan data untuk membuktikan konsep Hukum Coulomb dan medan listrik.
+                            </li>
+                            <li>
+                                <strong>Memproses, menganalisis data dan informasi,</strong> Peserta didik dapat menyiapkan peralatan/instrumen yang sesuai untuk penelitian, misalnya: menggunakan dua balon untuk mendemonstrasikan gaya tarik dan gaya tolak.
+                            </li>
+                            <li>
+                                <strong>Mengevaluasi dan refleksi,</strong> Peserta didik mampu menyampaikan argumentasi ilmiah dan kritis berdasarkan data/fakta saat berdiskusi bersama teman atau guru.
+                            </li>
+                            <li>
+                                <strong>Mengomunikasikan hasil,</strong> Peserta didik mampu menyusun laporan tertulis dan mampu mengomunikasikan hasil penelitian kepada teman sekelas serta menjawab pertanyaan berdasarkan pengetahuan yang diperoleh.
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">4</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Halaman 5 (F. Indikator Pencapaian Kompetensi) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <div class="section-badge">F. Indikator Pencapaian Kompetensi</div>
+
+                        <div class="keterampilan-list-4" style="margin-top:2px; border: 1px solid rgba(2, 132, 199, 0.2); border-radius: calc(var(--page-width) / 60);">
+                            <ol class="ipk-list-5">
+                                <li>Menjelaskan konsep muatan listrik melalui pengamatan video.</li>
+                                <li>Menjelaskan interaksi antar muatan melalui analisis <i>free body diagram</i>.</li>
+                                <li>Menguraikan arah resultan gaya listrik menggunakan analisis <i>free body diagram</i> pada sistem lebih dari satu muatan.</li>
+                                <li>Menentukan besar gaya listrik (Coulomb) pada suatu titik akibat satu atau lebih muatan.</li>
+                                <li>Menjelaskan konsep medan listrik berdasarkan analisis <i>free body diagram</i>.</li>
+                                <li>Menguraikan arah resultan kuat medan listrik menggunakan analisis <i>free body diagram</i> pada sistem lebih dari satu muatan.</li>
+                                <li>Menentukan kuat medan listrik pada suatu titik akibat satu atau lebih muatan.</li>
+                                <li> Menggambar free body diagram (FBD) pada muatan uji yang ditinjau berdasarkan permasalahan interaksi dua atau lebih muatan.</li>
+                                <li> Menghitung kuat medan listrik melalui data besar muatan dan jarak antar muatan.</li>
+                                <li> Menentukan besar dan arah resultan medan listrik berdasarkan free body diagram (FBD).</li>
+                            </ol>
+                        </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">5</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 6 (Kegiatan Pembelajaran I: Hukum Coulomb) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+                    <div class="header-banner-6">
+                        <div class="banner-icon-container-6">
+                            <img src="image/sisir.png" alt="Icon Banner" class="banner-img-6">
+                        </div>
+                        <div class="banner-text-6">
+                            <h2>KEGIATAN PEMBELAJARAN I</h2>
+                            <h3>HUKUM COULOMB</h3>
+                        </div>
+                    </div>
+
+                    <div class="dashed-box-6">
+                        <p class="instruction-text-6"><strong>Perhatikan video berikut!</strong></p>
+
+                        <!-- PEMUTAR VIDEO MODERN KUSTOM -->
+                        <div class="video-container-local-6" id="videoWrapper6">
+                            <video id="myVideo6" playsinline poster="poster-balon.jpg">
+                                <source src="vidio/balon1.mp4" type="video/mp4">
+                                Browser kamu tidak mendukung pemutaran video ini.
+                            </video>
+
+                            <!-- OVERLAY TOMBOL PLAY TENGAH -->
+                            <button class="play-btn-center-6" id="playBtnCenter6" aria-label="Play">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+
+                            <!-- KONTROL BAWAH (CUSTOM UI) -->
+                            <div class="video-controls-overlay-6">
+                                <button class="ctrl-btn-6" id="playPauseBtn6" aria-label="Play/Pause">
+                                    <svg id="playIcon6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    <svg id="pauseIcon6" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                </button>
+
+                                <span class="time-display-6" id="currentTime6">00:00</span>
+
+                                <div class="progress-bar-container-6" id="progressContainer6">
+                                    <div class="progress-bar-fill-6" id="progressBarFill6"></div>
+                                </div>
+
+                                <span class="time-display-6" id="duration6">00:00</span>
+
+                                <button class="ctrl-btn-6" id="muteBtn6" aria-label="Mute">
+                                    <svg id="volumeIcon6" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                                </button>
+
+                                <button class="ctrl-btn-6" id="fullscreenBtn6" aria-label="Fullscreen">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- CAPTION VIDEO -->
+                        <div class="video-caption-6">
+                            <p class="caption-title"><strong>Video 1</strong> Balon Bermuatan</p>
+                            <p class="caption-source"><em>Sumber: YouTube/A QuadruPul Ion Trap</em></p>
+                        </div>
+
+                        <!-- PARAGRAF TEKS MODUL -->
+                        <div class="paragraph-container-6">
+                            <p>Pada video terlihat sebuah balon dapat bergerak ketika didekatkan dengan batang pipet, meskipun keduanya tidak saling bersentuhan. Fenomena tersebut menunjukkan bahwa benda bermuatan listrik dapat saling memberikan gaya.</p>
+
+                            <p>Pernahkah kamu melihat balon yang menempel di dinding setelah digosok atau penggaris plastik yang dapat menarik potongan kertas? Mengapa hal tersebut dapat terjadi?</p>
+
+                            <p>Untuk menjawab pertanyaan tersebut, pada pertemuan ini kamu akan mempelajari konsep muatan listrik sebagai dasar memahami <strong>Hukum Coulomb</strong>, yaitu hukum yang menjelaskan besar gaya listrik antara dua muatan atau lebih. Selanjutnya, kamu akan menggunakan <strong><em>Free Body Diagram</em> (FBD)</strong> untuk menentukan arah gaya yang bekerja pada suatu muatan.</p>
+                        </div>
+                    </div>
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">6</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+           <!-- Halaman 7 (Tujuan Pembelajaran) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Judul Kapsul / Badge Atas -->
+                    <div class="title-pengantar">Tujuan Pembelajaran</div>
+                    <!-- Bingkai Kotak Bergaris Putus-Putus -->
+                    <div class="dashed-box-7">
+                        <ol class="tujuan-list-7">
+                            <li>
+                                Peserta didik mampu menjelaskan konsep Hukum Coulomb dengan benar melalui penyajian materi.
+                            </li>
+                            <li>
+                                Peserta didik mampu menentukan arah gaya listrik yang bekerja pada suatu muatan melalui ilustrasi interaksi dua atau lebih muatan menggunakan teknik <i>free body diagram</i> (FBD) dengan tepat.
+                            </li>
+                            <li>
+                                Peserta didik mampu menggambar <i>free body diagram</i> (FBD) pada muatan yang ditinjau dengan benar berdasarkan permasalahan interaksi dua atau lebih muatan yang diberi.
+                            </li>
+                            <li>
+                                Peserta didik mampu menghitung besar gaya Coulomb dengan benar melalui data besar muatan dan jarak antar muatan yang diberi.
+                            </li>
+                            <li>
+                                Peserta didik mampu menentukan besar dan arah resultan gaya listrik dengan tepat berdasarkan <i>free body diagram</i> (FBD).
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">7</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Halaman 8 (A. Muatan Listrik) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Badge Sub-Judul A. Muatan Listrik -->
+                    <div class="section-badge" style="margin-bottom:2px">A. Muatan Listrik</div>
+
+                    <!-- Container Paragraf & Video -->
+                    <div class="content-container-8" style="padding-left:calc(var(--page-width) / 27);">
+                        <p>
+                            Muatan listrik merupakan sifat dasar suatu benda yang memungkinkan terjadinya interaksi berupa gaya tarik atau tolak dengan benda lain. Muatan listrik statis dapat muncul, misalnya ketika sebuah balon digosokkan pada kain. Pada Video 2, dua balon yang telah digosokkan pada kain saling menjauhi meskipun tidak bersentuhan. Hal tersebut menunjukkan adanya gaya tolak-menolak akibat kedua balon memiliki jenis muatan yang sama. Ketika sebuah pipet diletakkan di antara kedua balon, kedua balon tetap saling menjauhi. Namun, ketika sebuah batang kayu diletakkan di antara kedua balon, kedua balon dapat tertarik dan menempel pada kayu akibat adanya interaksi antara muatan pada balon dan muatan yang terinduksi pada kayu.
+                        </p>
+
+                        <!-- PEMUTAR VIDEO (Tetap Memakai Class -6, Tapi ID Menggunakan 8) -->
+                        <div class="video-container-local-6" id="videoWrapper8">
+                            <video id="myVideo8" playsinline poster="poster-balon2.jpg">
+                                <source src="vidio/balon2.mp4" type="video/mp4">
+                            </video>
+
+                            <!-- OVERLAY TOMBOL PLAY TENGAH -->
+                            <button class="play-btn-center-6" id="playBtnCenter8" aria-label="Play">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+
+                            <!-- KONTROL BAWAH (CUSTOM UI) -->
+                            <div class="video-controls-overlay-6">
+                                <button class="ctrl-btn-6" id="playPauseBtn8" aria-label="Play/Pause">
+                                    <svg id="playIcon8" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    <svg id="pauseIcon8" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                </button>
+
+                                <span class="time-display-6" id="currentTime8">00:00</span>
+
+                                <div class="progress-bar-container-6" id="progressContainer8">
+                                    <div class="progress-bar-fill-6" id="progressBarFill8"></div>
+                                </div>
+
+                                <span class="time-display-6" id="duration8">00:00</span>
+
+                                <button class="ctrl-btn-6" id="muteBtn8" aria-label="Mute">
+                                    <svg id="volumeIcon8" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                                </button>
+
+                                <button class="ctrl-btn-6" id="fullscreenBtn8" aria-label="Fullscreen">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!-- CAPTION VIDEO 2 -->
+                        <div class="video-caption-8">
+                            <p class="caption-title"><strong>Video 2</strong> Dua Balon Bermuatan Saling Berinteraksi</p>
+                            <p class="caption-source" style="color:#ff0000">Sumber: YouTube/A QuadruPul Ion Trap</p>
+                        </div>
+                    <div class="content-container-8" style="padding-left:calc(var(--page-width) / 27);">
+                        <p>
+                            Hal ini terjadi karena adanya perpindahan elektron dari satu benda ke benda lainnya. Pada kondisi normal, setiap benda tersusun atas atom yang memiliki jumlah proton dan elektron yang seimbang sehingga bersifat netral.
+                        </p>
+
+                        <p>
+                            Namun, ketika keseimbangan tersebut terganggu, benda akan memiliki kelebihan atau kekurangan elektron sehingga menjadi bermuatan listrik, baik positif (+) maupun negatif (-). Benda-benda yang bermuatan listrik akan saling berinteraksi saat didekatkan pada jarak tertentu, baik berupa tarik-menarik maupun tolak-menolak. Interaksi ini menunjukkan adanya gaya yang bekerja, yang dikenal sebagai gaya listrik.
+                        </p>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">8</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 9 (B. Hukum Coulomb) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Badge Sub-Judul B. Hukum Coulomb -->
+                    <div class="section-badge-9">
+                        <h2>B. Hukum Coulomb</h2>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-9 shifted-right-9" style="margin-top:2px">
+                        <p>
+                            Pada tahun 1785, seorang ahli fisika Prancis bernama <span class="text-red-9">Charles Augustin de Coulomb</span> melakukan penelitian mengenai gaya yang terjadi antara dua benda bermuatan listrik. Berdasarkan hasil penelitiannya, <span class="text-red-9">Coulomb</span> menemukan bahwa dua muatan listrik yang saling didekatkan akan mengalami gaya tarik-menarik jika jenis muatannya berbeda, atau gaya tolak-menolak jika jenis muatannya sama seperti ditunjukkan pada Gambar 1.1 dan Gambar 1.2 berikut.
+                        </p>
+
+                        <!-- Layout Gambar Interaksi Muatan -->
+                        <div class="figures-row-9">
+                            <div class="figure-item-9">
+                                <div class="image-box-9">
+                                    <img src="image/Interaksi Muatan Sejenis.png" alt="Gambar 1.1 Interaksi Muatan Sejenis">
+                                </div>
+                                <div class="figure-caption-9">
+                                    <strong>Gambar 1.1</strong> Interaksi Muatan Sejenis
+                                </div>
+                            </div>
+                            <div class="figure-item-9">
+                                <div class="image-box-9">
+                                    <img src="image/Interaksi Muatan Berbeda Jenis.png" alt="Gambar 1.2 Interaksi Muatan Berbeda Jenis">
+                                </div>
+                                <div class="figure-caption-9">
+                                    <strong>Gambar 1.2</strong> Interaksi Muatan Berbeda Jenis
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            Hubungan antara besar gaya listrik, besar muatan, dan jarak kedua muatan dirumuskan dalam Hukum Coulomb. <span class="text-red-9">Hukum Coulomb</span> menyatakan bahwa <i>“<span class="text-red-9">besar gaya listrik antara dua benda bermuatan berbanding lurus dengan hasil kali besar kedua muatan dan berbanding terbalik dengan kuadrat jarak yang memisahkan keduanya</span>”</i>.
+                        </p>
+
+                        <p>
+                            Secara matematis, besar gaya listrik (gaya Coulomb) dinyatakan dengan persamaan:
+                        </p>
+
+                        <!-- Box Rumus Utama (Gunakan \displaystyle agar posisi subscript & garis pecahan proporsional) -->
+                        <div class="formula-box-9">
+                            \(\displaystyle \vec{F} = k \frac{q_1 \cdot q_2}{r^2}\)
+                        </div>
+                        <!-- Keterangan Rumus -->
+                        <div class="keterangan-container-9">
+                            <div class="keterangan-title-9">Keterangan :</div>
+                            <div class="keterangan-grid-9">
+                                <div class="keterangan-left-9">
+                                    <div>\(\vec{F}\) = gaya listrik (\(\text{N}\))</div>
+                                    <div>\(k\) = konstanta Coulomb (\(9 \times 10^9\,\text{N}\cdot\text{m}^2/\text{C}^2\))</div>
+                                    <div>\(r\) = jarak antar muatan (\(\text{m}\))</div>
+                                </div>
+                                <div class="keterangan-right-9">
+                                    <div>\(q_1\) = muatan pertama (\(\text{C}\))</div>
+                                    <div>\(q_2\) = muatan kedua (\(\text{C}\))</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            Berdasarkan persamaan di atas, besar gaya listrik dipengaruhi oleh besar muatan listrik dan jarak antara kedua muatan. Semakin besar muatan, gaya listrik semakin besar, sedangkan semakin jauh jarak antar muatan, gaya listrik semakin kecil.
+                        </p>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">9</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Halaman 10 (Resultan Gaya Coulomb & Vektor) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-10 shifted-right-10">
+                        <p>
+                            Gaya Coulomb merupakan besaran vektor, sehingga selain memiliki besar juga memiliki arah. Jika sebuah muatan dipengaruhi oleh lebih dari satu muatan lain, maka gaya Coulomb yang bekerja pada muatan tersebut merupakan hasil penjumlahan vektor dari semua gaya Coulomb yang berasal dari masing-masing muatan.
+                        </p>
+
+                        <p>
+                            Dalam kasus satu dimensi (segaris), arah gaya dapat dinyatakan menggunakan tanda positif dan negatif untuk mempermudah perhitungan. Pada e-modul ini, arah ke kanan dianggap bernilai positif (+), sedangkan arah ke kiri dianggap bernilai negatif (-). Oleh karena itu, jika dua gaya bekerja pada arah yang berlawanan, resultan gaya diperoleh dengan menjumlahkan nilai aljabarnya sesuai tanda masing-masing. Secara matematis, resultan gaya Coulomb dinyatakan sebagai:
+                        </p>
+
+                        <!-- Box Rumus Resultan Segaris -->
+                        <div class="formula-box-10">
+                            \(\displaystyle \vec{F}_{\text{Resultan}} = \vec{F}_1 + \vec{F}_2 + \dots + \vec{F}_n\)
+                        </div>
+
+                        <p>
+                            Pada kasus muatan yang tidak segaris, misalnya berbentuk segitiga. Arah gaya tidak berada pada satu garis lurus sehingga tidak dapat menggunakan konvensi arah positif dan negatif. Oleh karena itu, setiap gaya Coulomb harus digambarkan terlebih dahulu dalam bentuk vektor menggunakan <i>free body diagram</i> (FBD).
+                        </p>
+
+                        <p>
+                            Selanjutnya, resultan gaya diperoleh dengan menjumlahkan semua vektor gaya sesuai arah dan sudut antargaya. Jika dua vektor gaya membentuk sudut (\(\theta\)), maka besar resultan gaya dapat dihitung dengan persamaan:
+                        </p>
+
+                        <!-- Box Rumus Akar (Resultan Vektor Sudut) -->
+                        <div class="formula-box-10">
+                            \(\displaystyle \vec{F}_{\text{Resultan}} = \sqrt{(\vec{F}_1)^2 + (\vec{F}_2)^2 + 2\vec{F}_1 \cdot \vec{F}_2 \cdot \cos \theta}\)
+                        </div>
+
+                        <!-- Keterangan Rumus -->
+                        <div class="keterangan-container-10">
+                            <div class="keterangan-title-10">Keterangan:</div>
+                            <div class="keterangan-list-10">
+                                <div>\(\vec{F}_1\) = gaya pertama (\(\text{N}\))</div>
+                                <div>\(\vec{F}_2\) = gaya kedua (\(\text{N}\))</div>
+                                <div>\(\theta\) = sudut antara vektor gaya \(\vec{F}_1\) dan \(\vec{F}_2\)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">10</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+<!-- Halaman 11 (C. Prosedur Menggambar Free Body Diagram) -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Badge Sub-Judul C. Prosedur Menggambar Free Body Diagram -->
+                    <div class="section-badge-11">
+                        <h2>C. Prosedur Menggambar <i>Free Body Diagram</i></h2>
+                    </div>
+
+                    <!-- Container Konten (Geser Kanan & Kerapatan Alami) -->
+                    <div class="content-container-11 shifted-right-11">
+                        <p>
+                            <i>Free Body Diagram</i> atau diagram benda bebas adalah diagram yang menggambarkan semua gaya yang bekerja pada suatu benda secara terpisah dari lingkungannya. Penggunaan <i>free body diagram</i> (FBD) sangat penting dalam belajar karena membantu mengurai gaya-gaya vektor yang bekerja pada suatu muatan secara visual, terstruktur, dan akurat agar perhitungan fisika tidak keliru. Diadaptasi dari teknik <i>Free Body Diagram</i> berdasarkan Rosengrant (2009), langkah-langkah menggambar <i>free body diagram</i> adalah:
+                        </p>
+
+                        <!-- Daftar Langkah-Langkah (Numbered List) -->
+                        <ol class="prosedur-list-11">
+                            <li>Gambarkan situasi sesuai dengan informasi yang diberikan pada soal.</li>
+                            <li>Tentukan muatan yang akan ditinjau dengan cara melingkari muatan tersebut.</li>
+                            <li>Identifikasi semua muatan yang mempengaruhi objek yang ditinjau.</li>
+                            <li>Tentukan arah vektor yang bekerja pada muatan yang ditinjau.</li>
+                            <li>Gambarkan seluruh vektor yang bekerja sebagai panah yang berasal dari pusat muatan.</li>
+                            <li>Beri notasi setiap vektor, misalnya gaya pada muatan <span class="math-italic">q</span><sub>1</sub> akibat <span class="math-italic">q</span><sub>2</sub>: <span class="math-italic">F</span><sub>12</sub>.</li>
+                        </ol>
+
+                        <p>
+                            Untuk memudahkan kalian memahami langkah-langkah menggambar free body diagram (FBD), perhatikan contoh berikut. Tiga muatan, yaitu +<span class="math-italic">q</span><sub>1</sub>, &minus;<span class="math-italic">q</span><sub>2</sub> dan +<span class="math-italic">q</span><sub>3</sub> terletak tak segaris. <i>Free body diagram</i> pada muatan <span class="math-italic">q</span><sub>1</sub> dan langkah-langkah pembuatannya dapat dilihat pada Gambar 1.3 berikut.
+                        </p>
+
+                        <!-- Layout Gambar 1.3 -->
+                        <div class="figure-container-11">
+                            <div class="image-box-11">
+                                <!-- Sesuaikan src dengan nama file gambar Anda -->
+                                <img src="image/Langkah Menggambar FBD pada Hukum Coulomb.png" alt="Gambar 1.3 Langkah Menggambar FBD pada Hukum Coulomb">
+                            </div>
+                            <div class="figure-caption-11">
+                                <strong>Gambar 1.3</strong> <em>Free Body Diagram</em> Pada Muatan <em>q</em><sub>1</sub> dan Langkah-Langkah
+                            </div>
+                            <div class="figure-caption-11" style="margin-left:calc(var(--page-width) / -3.3);">
+                            Pembuatannya
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">11</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 12 (Contoh Soal Free Body Diagram & Hukum Coulomb) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama Halaman 12 -->
+                    <div class="content-12">
+                        <p class="paragraph-12">
+                            Perlu diperhatikan bahwa dalam menggambar <i>free body diagram</i> (FBD) pada Hukum Coulomb, objek yang ditinjau adalah muatan, sedangkan vektor yang digambarkan adalah vektor gaya Coulomb (\(\vec{F}\)). Arah vektor gaya ditentukan berdasarkan jenis interaksi antarmuatan, yaitu tarik-menarik untuk muatan yang berlainan jenis dan tolak-menolak untuk muatan yang sejenis.
+                        </p>
+
+                        <p class="paragraph-12" style= "padding-bottom:calc(var(--page-width) / 10);">
+                            Sebelum mengerjakan latihan secara mandiri, pelajari contoh penyelesaian soal berikut. Perhatikan bagaimana <i>free body diagram</i> (FBD) digunakan untuk menentukan gaya-gaya Coulomb yang bekerja pada muatan yang ditinjau.
+                        </p>
+                        <ol class="soal-list-12" start="1">
+                            <li>
+                                Dua buah muatan listrik masing-masing besarnya \(q_1 = 3\,\mu\text{C}\) dan \(q_2 = 6\,\mu\text{C}\) terpisah pada jarak \(3\text{ cm}\).
+                                <ol type="a" class="sub-soal-12">
+                                    <li>Gambarkan interaksi antara muatan \(q_1\) dan \(q_2\)!</li>
+                                    <li>Tentukan besar gaya listrik (Coulomb) antara kedua muatan!</li>
+                                </ol>
+                            </li>
+                        </ol>
+
+                        <p class="penyelesaian-title-12"><i>Penyelesaian:</i></p>
+
+                        <!-- Bagian A -->
+                        <div class="section-a-12">
+                            <p class="sub-heading-12"><b>a. Gambar interaksi antara \(q_1\) dan \(q_2\)</b></p>
+                            <div class="diagram-container-12">
+                                <img src="image/Diagram Interaksi Muatan q1 dan q2.png" alt="Diagram Interaksi Muatan q1 dan q2" class="fbd-img-12">
+                            </div>
+                        </div>
+
+                        <!-- Bagian B -->
+                        <div class="section-b-12">
+                            <p class="sub-heading-12"><b>b. Menentukan besar gaya listrik</b></p>
+
+                            <table class="math-table-12">
+                                <tr>
+                                    <td>Diketahui</td>
+                                    <td>:</td>
+                                    <td>
+                                        \(q_1 = 3\,\mu\text{C} = 3 \times 10^{-6}\,\text{C}\)<br>
+                                        \(q_2 = 6\,\mu\text{C} = 6 \times 10^{-6}\,\text{C}\)<br>
+                                        \(r = 3\text{ cm} = 3 \times 10^{-2}\,\text{m}\)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ditanya</td>
+                                    <td>:</td>
+                                    <td>\(\vec{F} = \dots?\)</td>
+                                </tr>
+                                <tr>
+                                    <td>Jawab</td>
+                                    <td>:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                            <p class="paragraph-12 italic-text-12" style="padding-bottom:calc(var(--page-width) / 30.5)">
+                                Karena kedua muatan saling berinteraksi, besar gaya yang dialami masing-masing muatan adalah sama, tetapi arahnya berlawanan.
+                            </p>
+                        </div>
+                    </div>
+                        <div class="example-header-12">
+                            <div class="example-title-badge1-12">l</div>
+                            <div class="example-title-badge-12">Contoh Soal</div>
+                            <div class="example-icon-box">
+                                <img src="image/Ikon Pensil.png" alt="Ikon Pensil" class="pencil-icon-12">
+                            </div>
+                        </div>
+
+
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">12</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+<!-- Halaman 13 (Contoh Soal 2 & Penyelesaian FBD) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-13 shifted-right-13">
+                        <!-- Lanjutan Penyelesaian Soal Nomor 1 -->
+                        <div class="math-step-13">
+                            <div>\(\vec{F}_{12} = \vec{F}_{21} = \vec{F}\)</div>
+                            <div>\(\displaystyle \vec{F} = k \frac{q_1 \cdot q_2}{r^2}\)</div>
+                            <div>\(\displaystyle \vec{F} = (9 \times 10^9\,\text{N}\cdot\text{m}^2\cdot\text{C}^{-2}) \frac{(+3 \times 10^{-6}\,\text{C}) \cdot (+6 \times 10^{-6}\,\text{C})}{(3 \times 10^{-2}\,\text{m})^2}\)</div>
+                            <div>\(\vec{F} = 180\,\text{N}\)</div>
+                        </div>
+
+                        <p class="kesimpulan-13">
+                            Jadi, besar gaya listrik (Coulomb) antara kedua muatan adalah \(180\,\text{N}\).
+                        </p>
+
+                        <!-- Soal Nomor 2 -->
+                        <div class="soal-item-13">
+                            <p>
+                                <span class="soal-number-13">2.</span> Tiga muatan \(q_1\), \(q_2\), dan \(q_3\) terletak segaris. Besar muatan \(q_1 = +16\,\mu\text{C}\), \(q_2 = -18\,\mu\text{C}\) dan \(q_3 = +2\,\mu\text{C}\). Muatan \(q_1\) dan \(q_2\) berjarak \(10\,\text{cm}\). Jika \(q_3\) diletakkan diantara \(q_1\) dan \(q_2\) berjarak \(4\,\text{cm}\) dari \(q_1\).
+                            </p>
+                            <div class="sub-soal-13">
+                                <div>a. Gambarkan <i>free body diagram</i> (FBD) pada muatan \(q_1\)!</div>
+                                <div>b. Gunakan FBD untuk menentukan besar dan arah resultan gaya Coulomb pada muatan \(q_1\)!</div>
+                            </div>
+                        </div>
+
+                        <!-- Penyelesaian Nomor 2a -->
+                        <div class="penyelesaian-container-13">
+                            <p class="penyelesaian-title-13"><i>Penyelesaian:</i></p>
+                            <p class="section-title-13"><b>a. Gambar <i>free body diagram</i></b></p>
+
+                            <ol class="step-list-13">
+                                <li>
+                                    Gambar situasi awal
+                                    <div class="image-step-box-13">
+                                        <img src="image/Soal2_SituasiAwal.png" alt="Gambar situasi awal">
+                                    </div>
+                                </li>
+                                <li>
+                                    Muatan yang ditinjau
+                                    <div class="image-step-box-13">
+                                        <img src="image/Soal2_MuatanDitinjau.png" alt="Muatan yang ditinjau">
+                                    </div>
+                                </li>
+                                <li>
+                                    Gaya yang mempengaruhi \(q_1\) adalah gaya dari muatan \(q_2\) dan \(q_3\).
+                                </li>
+                                <li>
+                                    Arah vektor gaya pada muatan \(q_1\) yaitu tertarik muatan \(q_2\) dan tertolak muatan \(q_3\).
+                                    <div class="image-step-box-13b">
+                                        <img src="image/Soal2_VektorGaya.png" alt="Arah vektor gaya pada muatan q1">
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">13</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 14 (Lanjutan Penyelesaian Soal 2) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-14 shifted-right-14">
+                        <!-- Langkah 5 FBD -->
+                        <div class="step-fbd-14">
+                            <div class="step-text-14">5. Gambar total vektor gaya</div>
+                            <div class="image-step-box-14">
+                                <img src="image/Soal2_TotalVektor.png" alt="Gambar total vektor gaya">
+                            </div>
+                        </div>
+
+                        <!-- Sub b. Menentukan besar dan arah resultan -->
+                        <div class="penyelesaian-sub-14">
+                            <p class="section-title-14"><b>b. Menentukan besar dan arah resultan gaya Coulomb pada muatan \(q_1\)</b></p>
+
+                            <!-- Grid Diketahui / Ditanya / Jawab -->
+                            <div class="diketahui-grid-14">
+                                <div class="dik-label-14">Diketahui</div>
+                                <div class="dik-colon-14">:</div>
+                                <div class="dik-content-14">
+                                    <div>\(q_1 = +16\,\mu\text{C} = +16 \times 10^{-6}\,\text{C}\)</div>
+                                    <div>\(q_2 = -18\,\mu\text{C} = -18 \times 10^{-6}\,\text{C}\)</div>
+                                    <div>\(q_3 = +2\,\mu\text{C} = +2 \times 10^{-6}\,\text{C}\)</div>
+                                    <div>\(r_{12} = 10\,\text{cm} = 10 \times 10^{-2}\,\text{m}\)</div>
+                                    <div>\(r_{13} = 4\,\text{cm} = 4 \times 10^{-2}\,\text{m}\)</div>
+                                    <div>\(r_{23} = 6\,\text{cm} = 6 \times 10^{-2}\,\text{m}\)</div>
+                                </div>
+
+                                <div class="dik-label-14">Ditanya</div>
+                                <div class="dik-colon-14">:</div>
+                                <div class="dik-content-14">
+                                    <div>\(\vec{F}_R = \dots?\)</div>
+                                </div>
+
+                                <div class="dik-label-14">Jawab</div>
+                                <div class="dik-colon-14">:</div>
+                                <div class="dik-content-14"></div>
+                            </div>
+
+                            <!-- Perhitungan F12 -->
+                            <div class="hitung-section-14">
+                                <p class="hitung-title-14"><b>Hitung \(\vec{F}_{12}\)</b></p>
+                                <div class="math-step-14">
+                                    <div>\(\displaystyle \vec{F}_{12} = k \frac{q_1 \cdot q_2}{(r_{12})^2}\)</div>
+                                    <div>\(\displaystyle \vec{F}_{12} = (9 \times 10^9\,\text{N}\cdot\text{m}^2\cdot\text{C}^{-2}) \frac{(+16 \times 10^{-6}\,\text{C}) \cdot (-18 \times 10^{-6}\,\text{C})}{(10 \times 10^{-2}\,\text{m})^2}\)</div>
+                                    <div>\(\vec{F}_{12} = 259{,}2\,\text{N}\)</div>
+                                </div>
+                            </div>
+
+                            <!-- Perhitungan F13 -->
+                            <div class="hitung-section-14">
+                                <p class="hitung-title-14"><b>Hitung \(\vec{F}_{13}\)</b></p>
+                                <div class="math-step-14">
+                                    <div>\(\displaystyle \vec{F}_{13} = k \frac{q_1 \cdot q_3}{(r_{13})^2}\)</div>
+                                    <div>\(\displaystyle \vec{F}_{13} = (9 \times 10^9\,\text{N}\cdot\text{m}^2\cdot\text{C}^{-2}) \frac{(+16 \times 10^{-6}\,\text{C}) \cdot (+2 \times 10^{-6}\,\text{C})}{(4 \times 10^{-2}\,\text{m})^2}\)</div>
+                                    <div>\(\vec{F}_{13} = 180\,\text{N}\)</div>
+                                </div>
+                            </div>
+
+                            <!-- Besar Resultan FR -->
+                            <div class="hitung-section-14">
+                                <p class="hitung-title-14"><b>Besar resultan \(\vec{F}_R\)</b></p>
+                                <div class="image-step-box-14 left-align-14">
+                                    <img src="image/Soal2_TotalVektor.png" alt="Arah Vektor FR">
+                                </div>
+                                <div class="arah-list-14">
+                                    <div>\(\vec{F}_{12} = 259{,}2\,\text{N}\) mengarah ke kanan, bernilai positif</div>
+                                    <div>\(\vec{F}_{13} = 180\,\text{N}\) mengarah ke kiri, bernilai negatif</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">14</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 15 (Lanjutan Resultan Soal 2 & Awal Soal 3) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-15 shifted-right-15">
+                        <!-- Lanjutan Perhitungan Resultan Soal 2 -->
+                        <div class="math-step-15">
+                            <div>\(\vec{F}_R = \vec{F}_{12} + \vec{F}_{13}\)</div>
+                            <div>\(\vec{F}_R = 259{,}2\,\text{N} + (-180\,\text{N})\)</div>
+                            <div>\(\vec{F}_R = 79{,}2\,\text{N}\)</div>
+                        </div>
+
+                        <!-- Penjelasan Arah Resultan -->
+                        <div class="arah-section-15">
+                            <p class="section-title-15"><b>Arah resultan \(\vec{F}_R\)</b></p>
+                            <p>
+                                Besar resultan gaya \(\vec{F}_R\) bernilai positif, sehingga arah resultannya ke kanan.
+                            </p>
+                            <p>
+                                Berikut adalah diagram resultan gaya \(\vec{F}_R\) pada muatan \(q_1\).
+                            </p>
+                            <div class="image-step-box-15">
+                                <img src="image/Soal2_DiagramResultan.png" alt="Diagram resultan gaya FR pada muatan q1">
+                            </div>
+                            <p class="kesimpulan-15">
+                                Jadi, besar resultan gaya (\(\vec{F}_R\)) pada muatan \(q_1\) adalah \(79{,}2\,\text{N}\) dan arahnya ke kanan.
+                            </p>
+                        </div>
+
+                        <!-- Soal Nomor 3 -->
+                        <div class="soal-item-15">
+                            <div class="soal-layout-15">
+                                <!-- Angka 3 Menjorok Keluar (Outdent) -->
+                                <div class="soal-number-15">3.</div>
+
+                                <!-- Gambar Segitiga (Sejajar Tepi Kiri Paragraf Atas) -->
+                                <div class="soal-img-box-15">
+                                    <img src="image/Soal3_SegitigaAwal.png" alt="Segitiga muatan qA, qB, qC">
+                                </div>
+
+                                <!-- Teks Deskripsi Soal -->
+                                <div class="soal-text-15">
+                                    <p>
+                                        Gambar disamping adalah segitiga sama sisi dengan panjang sisi \(3\,\text{cm}\). Pada titik sudut \(q_A\), \(q_B\) dan \(q_C\) masing-masing terdapat muatan \(+4\,\mu\text{C}\), \(-1{,}5\,\mu\text{C}\) dan \(+2 \times 10^{-5}\,\text{C}\). Gambarlah <i>free body diagram</i> serta tentukan besar dan arah resultan gaya coulomb di titik sudut \(q_C\)!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Penyelesaian Nomor 3 -->
+                        <div class="penyelesaian-container-15">
+                            <p class="penyelesaian-title-15"><i>Penyelesaian:</i></p>
+                            <ul class="bullet-list-15">
+                                <li>
+                                    <b><i>Free body diagram</i> pada muatan \(q_C\)</b>
+                                    <ol class="step-list-15">
+                                        <li>
+                                            <span>Gambar situasi awal</span>
+                                            <div class="image-situasi-box-15">
+                                                <img src="image/Soal3_SegitigaAwal.png" alt="Gambar situasi awal Soal 3">
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">15</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 16 (Lanjutan Penyelesaian Soal Nomor 3) -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Container Konten Utama -->
+                    <div class="content-container-16 shifted-right-16">
+                        <div class="penyelesaian-container-16">
+
+                            <!-- Langkah FBD Nomor 2 sampai 5 -->
+                            <ol class="step-list-16" start="2">
+                                <li>
+                                    Muatan yang ditinjau
+                                    <div class="image-step-box-16">
+                                        <img src="image/Soal3_Langkah2.png" alt="Muatan yang ditinjau qC">
+                                    </div>
+                                </li>
+                                <li>
+                                    Gaya yang mempengaruhi \(q_C\) adalah gaya dari muatan \(q_A\) dan \(q_B\).
+                                </li>
+                                <li>
+                                    Arah vektor gaya pada muatan \(q_C\) yaitu tertolak muatan \(q_A\) dan tertarik muatan \(q_B\).
+                                    <div class="image-step-box-16b">
+                                        <img src="image/Soal3_Langkah4.png" alt="Arah vektor gaya FCA dan FCB">
+                                    </div>
+                                </li>
+                                <li>
+                                    Gambar total vektor gaya
+                                    <div class="image-step-box-16c">
+                                        <img src="image/Soal3_Langkah5.png" alt="Gambar total vektor gaya">
+                                    </div>
+                                </li>
+                            </ol>
+
+                            <!-- Section Bullet Utama: Menentukan Resultan -->
+                            <div class="bullet-section-16">
+                                <div class="bullet-header-16">
+                                    <span class="bullet-dot-16">•</span>
+                                    <b>Menentukan resultan gaya Coulomb pada muatan \(q_C\)</b>
+                                </div>
+
+                                <div class="bullet-content-16">
+                                    <!-- Grid Diketahui, Ditanya, Jawab -->
+                                    <div class="diketahui-grid-16">
+                                        <div class="grid-row-16">
+                                            <span class="label-16">Diketahui</span>
+                                            <span class="colon-16">:</span>
+                                            <span class="value-16">
+                                                \(q_A = +4\mu\text{C} = +4 \times 10^{-6}\text{C}\)<br>
+                                                \(q_B = -1{,}5\mu\text{C} = -1{,}5 \times 10^{-6}\text{C}\)<br>
+                                                \(q_C = +2 \times 10^{-5}\text{C}\)<br>
+                                                \(r = 3\text{cm} = 3 \times 10^{-2}\text{m}\)
+                                            </span>
+                                        </div>
+                                        <div class="grid-row-16">
+                                            <span class="label-16">Ditanya</span>
+                                            <span class="colon-16">:</span>
+                                            <span class="value-16">\(\vec{F}_R = \dots?\)</span>
+                                        </div>
+                                        <div class="grid-row-16">
+                                            <span class="label-16">Jawab</span>
+                                            <span class="colon-16">:</span>
+                                            <span class="value-16"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sub Perhitungan Hitung FCA -->
+                                    <div class="hitung-fca-container-16">
+                                        <p class="sub-title-fca-16"><b>Hitung \(\vec{F}_{CA}\)</b></p>
+                                        <div class="math-fca-steps-16">
+
+                                            <div class="math-row-16">
+                                                <span>\(\vec{F}_{CA} = k\)</span>
+                                                <table class="frac-table-16">
+                                                    <tr><td class="num-cell-16">\(q_C \cdot q_A\)</td></tr>
+                                                    <tr><td class="denom-cell-16">\((r_{CA})^2\)</td></tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="math-row-16">
+                                                <span>\(\vec{F}_{CA} = (9 \times 10^9\,\text{N}\text{m}^2\text{C}^{-2})\)</span>
+                                                <table class="frac-table-16">
+                                                    <tr><td class="num-cell-16">\((+2 \times 10^{-5}\text{C}) \cdot (+4 \times 10^{-6}\text{C})\)</td></tr>
+                                                    <tr><td class="denom-cell-16">\((3 \times 10^{-2}\text{m})^2\)</td></tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="math-row-16">
+                                                <span>\(\vec{F}_{CA} = 8 \times 10^2\,\text{N}\)</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">16</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+<!-- Halaman 17 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama -->
+                    <div class="content-container-17 shifted-right-17">
+                        <div class="penyelesaian-container-17">
+
+                            <!-- 1. Hitung FCB -->
+                            <div class="hitung-fcb-container-17">
+                                <p class="sub-title-17"><b>Hitung \(\vec{F}_{CB}\)</b></p>
+
+                                <div class="math-steps-17">
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_{CB} = k \dfrac{q_C \cdot q_B}{(r_{CB})^2}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_{CB} = (9 \times 10^9 \text{Nm}^2\text{C}^{-2}) \dfrac{(+2 \times 10^{-5}\text{C}) \cdot (-1{,}5 \times 10^{-6}\text{C})}{(3 \times 10^{-2}\text{m})^2}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_{CB} = 3 \times 10^2\text{N}\)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Besar Resultan FR -->
+                            <div class="besar-resultan-container-17">
+                                <p class="sub-title-17"><b>Besar Resultan \(\vec{F}_R\)</b></p>
+
+                                <p class="desc-text-17">
+                                    Sudut di titik \(q_C\) pada segitiga sama sisi adalah \(60^\circ\). Namun, arah gaya \(\vec{F}_{CA}\) berada pada perpanjangan garis \(q_A q_C\) yang besar sudutnya \(180^\circ\). Oleh karena itu, sudut antara kedua vektor gaya adalah \(180^\circ - 60^\circ = 120^\circ\).
+                                </p>
+
+                                <div class="math-steps-17">
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_R = \sqrt{(\vec{F}_{CA})^2 + (\vec{F}_{CB})^2 + 2\vec{F}_{CA} \cdot \vec{F}_{CB} \cdot \cos\,\theta}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_R = \sqrt{(8 \times 10^2\text{N})^2 + (3 \times 10^2\text{N})^2 + 2(8 \times 10^2\text{N}) \cdot (3 \times 10^2\text{N}) \cdot \cos\,120^\circ}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_R = \sqrt{(64 \times 10^4\text{N}) + (9 \times 10^4\text{N}) + (48 \times 10^4\text{N}) \cdot \left(-\frac{1}{2}\right)}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_R = \sqrt{(49 \times 10^4)\text{N}}\)</span>
+                                    </div>
+                                    <div class="math-row-17">
+                                        <span>\(\vec{F}_R = 7 \times 10^2\text{N}\)</span>
+                                    </div>
+                                </div>
+
+                                <p class="desc-text-17">
+                                    Jadi, besar resultan gaya Coulomb pada titik sudut \(q_C\) adalah \(7 \times 10^2\text{N}\).
+                                </p>
+                            </div>
+
+                            <!-- 3. Arah Resultan FR -->
+                            <div class="arah-resultan-container-17">
+                                <p class="sub-title-17"><b>Arah Resultan \(\vec{F}_R\)</b></p>
+
+                                <p class="desc-text-17">
+                                    Berikut adalah diagram arah resultan gaya \(\vec{F}_R\) pada muatan \(q_C\).
+                                </p>
+
+                                <div class="image-arah-box-17">
+                                    <img src="image/Soal3_ArahResultan.png" alt="Diagram arah resultan gaya FR pada muatan qC">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">17</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Halaman 18 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama -->
+                    <div class="content-container-18 shifted-right-18">
+                        <!-- 1. Judul Kaligrafi Miring di Luar / di Atas Kotak -->
+                        <div class="kegiatan-header-outside-18">
+                            <span class="label-kegiatan-script-18">Kegiatan :</span>
+                            <span class="text-judul-kegiatan-script-18">Menggambar Free Body Diagram pada Hukum Coulomb</span>
+                        </div>
+                        <!-- 2. Kotak Utama Garis Putus-Putus dengan Background Hijau Muda Lembut -->
+                        <div class="kegiatan-card-18">
+
+                            <!-- Ikon Pensil Independen (Posisi Bebas di Pojok Kanan Atas) -->
+                            <div class="pencil-icon-box-18">
+                                <img src="image/pencil-icon-18.png" alt="Ikon Pensil" class="pencil-icon-18">
+                            </div>
+
+                            <!-- Section: Tujuan -->
+                            <div class="section-block-18">
+                                <p class="section-header-18">Tujuan</p>
+                                <p class="desc-text-18">
+                                    Menggambarkan free body diagram pada salah satu muatan yang terletak pada titik sudut persegi.
+                                </p>
+                            </div>
+
+                            <!-- Section: Persoalan -->
+                            <div class="section-block-18">
+                                <p class="section-header-18">Persoalan</p>
+                                <p class="desc-text-18">Perhatikan gambar berikut!</p>
+                                <div class="image-persoalan-box-18">
+                                    <img src="image/Soal_Persegi.png" alt="Muatan pada titik sudut persegi">
+                                </div>
+                                <p class="desc-text-18">Gambarkan free body diagram pada muatan \(q_1\)!</p>
+                            </div>
+
+                            <!-- Section: Petunjuk -->
+                            <div class="section-block-18">
+                                <p class="section-header-18">Petunjuk</p>
+                                <ol class="list-petunjuk-18">
+                                    <li>Tentukan muatan yang ditinjau.</li>
+                                    <li>Identifikasi semua gaya yang mempengaruhi muatan yang ditinjau.</li>
+                                    <li>Tentukan arah vektor gaya yang bekerja pada muatan yang ditinjau.</li>
+                                    <li>Gambar semua vektor gaya pada muatan yang ditinjau.</li>
+                                    <li>Beri notasi semua vektor gaya.</li>
+                                </ol>
+                            </div>
+
+                            <!-- Section: Tugas -->
+                            <div class="section-block-18">
+                                <p class="section-header-18">Tugas</p>
+                                <p class="desc-text-18">Buatlah kesimpulan berdasarkan free body diagram yang telah dibuat.</p>
+                            </div>
+
+                            <!-- Section: Checklist Mandiri -->
+                            <div class="checklist-section-18">
+                                <p class="desc-text-18">Periksa kembali FBD yang telah kalian buat. Beri tanda (&check;) jika sudah sesuai.</p>
+                                <div class="checklist-items-18">
+                                    <label class="check-item-18">
+                                        <input type="checkbox">
+                                        <span>Muatan yang ditinjau sudah benar.</span>
+                                    </label>
+                                    <label class="check-item-18">
+                                        <input type="checkbox">
+                                        <span>Semua gaya yang mempengaruhi sudah diidentifikasi dengan benar.</span>
+                                    </label>
+                                    <label class="check-item-18">
+                                        <input type="checkbox">
+                                        <span>Arah setiap gaya sudah benar sesuai gaya tarik-tolak.</span>
+                                    </label>
+                                    <label class="check-item-18">
+                                        <input type="checkbox">
+                                        <span>Seluruh vektor sudah digambarkan pada FBD.</span>
+                                    </label>
+                                    <label class="check-item-18">
+                                        <input type="checkbox">
+                                        <span>Notasi gaya sudah benar, misalnya \(\vec{F}_{12}\).</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">18</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+<!-- Halaman 19 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama -->
+                    <div class="content-container-19 shifted-right-19">
+
+                        <!-- 1. SEKSI CEK PEMAHAMAN -->
+                        <div class="cek-pemahaman-wrapper-19">
+                            <!-- Ikon Buku Independen (Ubah koordinat X & Y langsung di sini) -->
+                            <div class="icon-books-box-19">
+                                <img src="image/books_icon.png" alt="Books Icon" class="icon-books-19">
+                            </div>
+
+                            <!-- Header Judul (Space Kiri disesuaikan dengan posisi ikon) -->
+                            <div class="cek-header-19">
+                                <span class="text-cek-pemahaman-19">Cek Pemahaman</span>
+                            </div>
+
+                            <!-- Kotak Oranye Dashed Border -->
+                            <div class="card-cek-19">
+                                <p class="desc-text-19">
+                                    Kerjakan soal pada tautan <em>google form</em> berikut untuk mengetahui tingkat pemahaman Anda pada materi Hukum Coulomb (Teknik <em>free body diagram</em>).
+                                </p>
+
+                                <div class="btn-container-center-19">
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScQNvQtq02WdQ6VWVDyM9PHAq78Plw8BfctB0PUckHhkOLhLw/viewform?usp=header" target="_blank" class="btn-orange-19">
+                                        https://soal cek pemahaman hukum Coulomb
+                                    </a>
+                                </div>
+
+                                <div class="nilai-note-19">
+                                    <div class="note-row-19">
+                                        <span class="note-label-19"><strong>Nilai &ge; 75 :</strong></span>
+                                        <span class="note-text-19">Anda dapat melanjutkan ke materi berikutnya.</span>
+                                    </div>
+                                    <div class="note-row-19">
+                                        <span class="note-label-19"><strong>Nilai &lt; 75 :</strong></span>
+                                        <span class="note-text-19">Pelajari kembali materi dan langkah-langkah FBD sebelum melanjutkan.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. SEKSI D. LATIHAN SOAL -->
+                    <div class="section-badge-9">D. Latihan Soal</div>
+                    <div class="content-container-19 shifted-right-19">
+                        <div class="latihan-wrapper-19">
+                            <!-- Kotak Utama Latihan Soal -->
+                            <div class="card-latihan-19">
+
+                                <!-- Ikon Siswa Independen (Ubah koordinat X & Y langsung di sini) -->
+                                <div class="icon-student-box-19">
+                                    <img src="image/student_icon.png" alt="Student Icon" class="icon-student-19">
+                                </div>
+
+                                <!-- Badge Latihan Soal Independen (Ubah koordinat X & Y langsung di sini) -->
+                                <div class="badge-latihan-box-19">
+                                    <div class="badge-latihan-script-19">
+                                        Latihan Soal
+                                    </div>
+                                </div>
+
+                                <!-- Tombol Link Red Border -->
+                                <div class="btn-container-center-19 margin-top-btn-19">
+                                    <a href="https://docs.google.com/presentation/d/1tYfzrm9g0g1JA5wWcMvQa9uPuaN3Liz1/edit?usp=sharing&ouid=110815166241719903233&rtpof=true&sd=true" target="_blank" class="btn-red-border-19">
+                                        https://soal latihan hukum Coulomb
+                                    </a>
+                                </div>
+
+                                <!-- List Petunjuk -->
+                                <ol class="list-latihan-19">
+                                    <li>Silakan klik tautan dan kerjakan soal yang terdapat pada tautan di atas!</li>
+                                    <li>
+                                        Kirimkan jawaban kalian pada tautan
+                                        <a href="https://drive.google.com/drive/folders/1j8_nFyMn_DzDdUPGeEQnmSu0Qa5yFptG?usp=sharing" target="_blank" class="inline-link-blue-19">
+                                            https://latihan hukum coulomb
+                                        </a>
+                                        tersebut.
+                                    </li>
+                                </ol>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">19</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+<!-- Halaman 20 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo Kemdikbud">
+                            <img src="image/logo2.png" alt="Logo Universitas">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama Halaman 20 -->
+
+                    <div class="section-badge">
+                            E. Refleksi
+                    </div>
+
+                    <div class="content-container-20 shifted-right-20">
+                        <!-- 2. Instruksi Teks Refleksi -->
+                        <p class="refleksi-instruction-20">
+                            Isilah pertanyaan pada tabel dibawah ini sesuai dengan yang kalian ketahui, isilah dengan jujur, objektif, dan penuh tanggung jawab dengan memberi tanda &radic; pada kolom &ldquo;Ya&rdquo; atau &ldquo;Tidak&rdquo;. (Ya = 1; Tidak = 0)
+                        </p>
+
+                        <!-- 3. Tabel Refleksi -->
+                        <table class="refleksi-table-20">
+                            <thead>
+                                <tr>
+                                    <th class="col-no-20">No</th>
+                                    <th class="col-pertanyaan-20">Pertanyaan</th>
+                                    <th class="col-ya-20">Ya</th>
+                                    <th class="col-tidak-20">Tidak</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-no-20">1</td>
+                                    <td class="col-pertanyaan-20">Saya dapat menjelaskan konsep Hukum Coulomb</td>
+                                    <td class="col-ya-20"></td>
+                                    <td class="col-tidak-20"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-no-20">2</td>
+                                    <td class="col-pertanyaan-20">Saya dapat menentukan arah gaya listrik</td>
+                                    <td class="col-ya-20"></td>
+                                    <td class="col-tidak-20"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-no-20">3</td>
+                                    <td class="col-pertanyaan-20">Saya dapat menggambar FBD dengan benar</td>
+                                    <td class="col-ya-20"></td>
+                                    <td class="col-tidak-20"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-no-20">4</td>
+                                    <td class="col-pertanyaan-20">Saya dapat menghitung besar gaya Coulomb</td>
+                                    <td class="col-ya-20"></td>
+                                    <td class="col-tidak-20"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-no-20">5</td>
+                                    <td class="col-pertanyaan-20">Saya dapat menentukan besar dan arah resultan gaya listrik</td>
+                                    <td class="col-ya-20"></td>
+                                    <td class="col-tidak-20"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- 4. Card Catatan Refleksi -->
+                        <div class="catatan-card-20">
+                            <p class="catatan-title-20">Catatan:</p>
+                            <ul class="catatan-list-20">
+                                <li>Jika ada jawaban &ldquo;Tidak&rdquo; maka lakukan <i>review</i> materi pembelajaran kembali.</li>
+                                <li>Jika ada jawaban &ldquo;Ya&rdquo; dengan interval nilai 41%-60%, maka Anda dapat melanjutkan ke materi berikutnya, tetapi disarankan untuk mengulang bagian yang belum dipahami.</li>
+                                <li>Jika ada jawaban &ldquo;Ya&rdquo; dengan interval nilai 61%-100%, maka Anda dapat melanjutkan kegiatan pembelajaran selanjutnya.</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">20</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+<!-- Halaman 21 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo 1">
+                            <img src="image/logo2.png" alt="Logo 2">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama -->
+                    <div class="section-badge">F. Rangkuman</div>
+                    <div class="content-container-21 shifted-right-21">
+                        <ol class="main-list-21">
+                            <!-- Poin 1 -->
+                            <li>
+                                Muatan listrik merupakan karakteristik dasar suatu benda yang membuatnya dapat mengalami gaya tarik atau gaya tolak dengan benda lain.
+                            </li>
+
+                            <!-- Poin 2 -->
+                            <li>
+                                Hukum coulomb berbunyi: <em>“besar gaya tarik-menarik atau tolak-menolak antara dua benda bermuatan listrik berbanding lurus dengan besar muatan masing-masing benda dan berbanding terbalik dengan kuadrat jarak antara kedua benda tersebut.”</em>
+                                <div class="math-display-21">
+                                    \[\vec{F} = k \, \frac{q_1 \cdot q_2}{r^2}\]
+                                </div>
+                            </li>
+
+                            <!-- Poin 3 -->
+                            <li>
+                                Jika terdapat lebih dari dua muatan terletak pada garis lurus, maka resultan medan litrik dapat ditulis:
+                                <div class="math-display-21">
+                                    \[\vec{F}_{Resultan} = \vec{F}_1 + \vec{F}_2 + \dots + \vec{F}_n\]
+                                </div>
+                            </li>
+
+                            <!-- Poin 4 -->
+                            <li>
+                                Jika muatan membentuk suatu segitiga, maka resultan medan listrik dapat ditulis:
+                                <div class="math-display-21">
+                                    \[\vec{F}_{Resultan} = \sqrt{(\vec{F}_1)^2 + (\vec{F}_2)^2 + 2\vec{F}_1 \cdot \vec{F}_2 \cdot \cos \theta}\]
+                                </div>
+                            </li>
+
+                            <!-- Poin 5 -->
+                            <li>
+                                <em>Free body diagram</em> (FBD) adalah diagram yang menggambarkan semua gaya yang bekerja pada suatu benda secara terpisah dari lingkungannya. Langkah-langkah menggambar FBD:
+                                <ol type="a" class="sub-list-21">
+                                    <li>Identifikasi muatan yang ditinjau.</li>
+                                    <li>Tentukan arah gaya pada muatan yang ditinjau akibat muatan lain.</li>
+                                    <li>Gambar semua vektor gaya yang bekerja pada muatan yang ditinjau.</li>
+                                    <li>Beri notasi pada semua vektor gaya.</li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">21</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+<!-- Halaman 22 -->
+            <div class="page">
+                <div class="page-content">
+                    <!-- Header Halaman -->
+                    <div class="page-header" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <div class="header-left-logos">
+                            <img src="image/logo1.png" alt="Logo Kemdikbud">
+                            <img src="image/logo2.png" alt="Logo Universitas">
+                        </div>
+                        <div class="header-right">E-Modul Free Body Diagram</div>
+                    </div>
+
+                    <!-- Konten Utama Halaman 22 -->
+                    <div class="content-container-22 shifted-right-22">
+
+                        <!-- 1. Banner Header Kegiatan Pembelajaran II -->
+                        <div class="kp-banner-22">
+                            <div class="kp-logo-wrapper-22">
+                                <img src="image/kp2_logo.png" alt="Logo Medan Listrik" class="kp-logo-img-22">
+                            </div>
+                            <div class="kp-title-container-22">
+                                <div class="kp-main-title-22">KEGIATAN PEMBELAJARAN II</div>
+                                <div class="kp-subtitle-22">
+                                    <span class="star-icon-22">&#10022;</span> MEDAN LISTRIK
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Box Apersepsi / Pengantar (Garis Putus-Putus Biru) -->
+                        <div class="apersepsi-card-22">
+                            <p class="apersepsi-lead-22">
+                                <b>Sebelum memulai materi, ingat kembali pembelajaran sebelumnya.</b>
+                            </p>
+                            <p class="apersepsi-paragraph-22">
+                                Pada pertemuan sebelumnya kamu telah mempelajari Hukum Coulomb dan menggunakan <i>free body diagram</i> (FBD) untuk menggambarkan arah gaya listrik yang bekerja pada suatu muatan. Melalui FBD, kamu dapat menentukan arah setiap gaya sebelum menghitung resultannya.
+                            </p>
+                            <p class="apersepsi-paragraph-22">
+                                Namun, pernahkah kamu bertanya, mengapa suatu gaya listrik dapat muncul meskipun muatan lain tidak bersentuhan? Apa yang menyebabkan suatu muatan mengetahui arah gaya yang harus dialaminya?
+                            </p>
+                            <p class="apersepsi-paragraph-22">
+                                Untuk menjawab pertanyaan tersebut, pada pertemuan ini kamu akan mempelajari <b>medan listrik</b>, yaitu daerah di sekitar suatu muatan yang masih dipengaruhi oleh gaya listrik. Selanjutnya, kamu akan menggunakan <i>free body diagram</i> untuk menghubungkan arah medan listrik dengan arah gaya yang bekerja pada muatan uji sehingga proses analisis menjadi lebih sistematis.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer Halaman -->
+                    <div class="page-footer" style="color: #ffffff; font-size: calc(var(--page-width) / 50);">
+                        <span class="footer-left">Hukum Coulomb &amp; Medan Listrik</span>
+                        <span class="footer-center">21</span>
+                        <span class="footer-right"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Cover Belakang -->
+            <div class="page cover-back">
+                <div class="page-content">
+                    <div class="page-header" style="color: #cbd5e1; text-shadow: none;">Akhir Dokumen</div>
+                    <div class="page-body">
+                        <h2 style="color: #ffffff;">Terima Kasih</h2>
+                        <p style="color: #94a3b8;">Dibuat dengan StPageFlip & CSS Modern.</p>
+                    </div>
+                    <div class="page-footer" style="color: #cbd5e1; text-shadow: none;">
+                        <span>© 2026</span>
+                        <span>Selesai</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <!-- ELEMEN NAVIGASI -->
+    <button class="btn-icon" id="btn-prev" title="Sebelumnya">
+        <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+    </button>
+
+    <!-- TOOLBAR ZOOM & FULLSCREEN -->
+    <div id="top-toolbar">
+        <button class="btn-icon" id="btn-fullscreen" title="Layar penuh">
+            <i data-lucide="maximize" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-icon" id="btn-zoom-in" title="Perbesar">
+            <i data-lucide="zoom-in" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-icon" id="btn-zoom-out" title="Perkecil">
+            <i data-lucide="zoom-out" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-icon" id="btn-share" title="Bagikan">
+            <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-icon" id="btn-search" title="Cari kata">
+            <i data-lucide="search" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-icon" id="btn-allpages" title="Lihat semua halaman">
+            <i data-lucide="layout-grid" style="width: 16px; height: 16px;"></i>
+        </button>
+    </div>
+
+    <!-- PANEL CARI KATA -->
+    <div id="search-panel">
+        <div id="search-panel-header">
+            <span id="search-panel-title">Cari Kata</span>
+            <button class="btn-icon" id="btn-search-close" title="Tutup">
+                <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+            </button>
+        </div>
+        <input type="text" id="search-input" placeholder="Ketik kata kunci..." autocomplete="off">
+        <div id="search-meta"></div>
+        <div id="search-results"></div>
+    </div>
+
+    <!-- OVERLAY LIHAT SEMUA HALAMAN -->
+    <div id="allpages-overlay">
+        <div id="allpages-panel">
+            <div id="allpages-panel-header">
+                <span id="allpages-panel-title">Semua Halaman</span>
+                <button class="btn-icon" id="btn-allpages-close" title="Tutup">
+                    <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+                </button>
+            </div>
+            <div id="allpages-grid"></div>
+        </div>
+    </div>
+
+    <span class="page-indicator" id="page-indicator">
+        <input type="text" id="page-input" inputmode="text" autocomplete="off" value="1" title="Ketik nomor halaman (mis. 5 atau iv) lalu tekan Enter">
+        <span id="page-slash">/</span>
+        <span id="page-total">1</span>
+    </span>
+
+    <button class="btn-icon" id="btn-next" title="Selanjutnya">
+        <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+    </button>
+
+        <!-- Tombol Ke Halaman Pertama -->
+    <button id="btn-first" class="btn-icon">
+        &#171;
+    </button>
+    <!-- Tombol Ke Halaman Terakhir -->
+    <button id="btn-last" class="btn-icon">
+        &#187;
+    </button>
+
+    <script>
+    (function() {
+        const video = document.getElementById('myVideo6');
+        const wrapper = document.getElementById('videoWrapper6');
+        const playBtnCenter = document.getElementById('playBtnCenter6');
+        const playPauseBtn = document.getElementById('playPauseBtn6');
+        const playIcon = document.getElementById('playIcon6');
+        const pauseIcon = document.getElementById('pauseIcon6');
+        const currentTimeEl = document.getElementById('currentTime6');
+        const durationEl = document.getElementById('duration6');
+        const progressContainer = document.getElementById('progressContainer6');
+        const progressFill = document.getElementById('progressBarFill6');
+        const muteBtn = document.getElementById('muteBtn6');
+        const fullscreenBtn = document.getElementById('fullscreenBtn6');
+
+        function formatTime(sec) {
+            if (isNaN(sec)) return "00:00";
+            const m = Math.floor(sec / 60).toString().padStart(2, '0');
+            const s = Math.floor(sec % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        // Tombol play besar di tengah
+        playBtnCenter.addEventListener('click', togglePlay);
+
+        // Tombol play/pause kecil di kontrol bawah
+        playPauseBtn.addEventListener('click', togglePlay);
+
+        // Update ikon & sembunyikan tombol tengah saat play
+        video.addEventListener('play', () => {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+            playBtnCenter.style.display = 'none';
+        });
+
+        video.addEventListener('pause', () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            playBtnCenter.style.display = 'flex';
+        });
+
+        // Durasi video setelah metadata dimuat
+        video.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(video.duration);
+        });
+
+        // Update progress bar & waktu berjalan
+        video.addEventListener('timeupdate', () => {
+            const percent = (video.currentTime / video.duration) * 100;
+            progressFill.style.width = percent + '%';
+            currentTimeEl.textContent = formatTime(video.currentTime);
+        });
+
+        // Klik di progress bar untuk seek
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percent = clickX / rect.width;
+            video.currentTime = percent * video.duration;
+        });
+
+        // Tombol mute
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+        });
+
+        // Tombol fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (wrapper.requestFullscreen) {
+                wrapper.requestFullscreen();
+            } else if (wrapper.webkitRequestFullscreen) {
+                wrapper.webkitRequestFullscreen();
+            }
+        });
+
+        // Ketika video selesai, tampilkan lagi tombol play tengah
+        video.addEventListener('ended', () => {
+            playBtnCenter.style.display = 'flex';
+        });
+    })();
+
+    (function() {
+    const video = document.getElementById('myVideo8');
+    const wrapper = document.getElementById('videoWrapper8');
+    const playBtnCenter = document.getElementById('playBtnCenter8');
+    const playPauseBtn = document.getElementById('playPauseBtn8');
+    const playIcon = document.getElementById('playIcon8');
+    const pauseIcon = document.getElementById('pauseIcon8');
+    const currentTimeEl = document.getElementById('currentTime8');
+    const durationEl = document.getElementById('duration8');
+    const progressContainer = document.getElementById('progressContainer8');
+    const progressFill = document.getElementById('progressBarFill8');
+    const muteBtn = document.getElementById('muteBtn8');
+    const fullscreenBtn = document.getElementById('fullscreenBtn8');
+
+    if (!video) return;
+
+    function formatTime(sec) {
+        if (isNaN(sec)) return "00:00";
+        const m = Math.floor(sec / 60).toString().padStart(2, '0');
+        const s = Math.floor(sec % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
+    function togglePlay() {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }
+
+    playBtnCenter.addEventListener('click', togglePlay);
+    playPauseBtn.addEventListener('click', togglePlay);
+
+    video.addEventListener('play', () => {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        playBtnCenter.style.display = 'none';
+    });
+
+    video.addEventListener('pause', () => {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        playBtnCenter.style.display = 'flex';
+    });
+
+    video.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(video.duration);
+    });
+
+    video.addEventListener('timeupdate', () => {
+        const percent = (video.currentTime / video.duration) * 100;
+        progressFill.style.width = percent + '%';
+        currentTimeEl.textContent = formatTime(video.currentTime);
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+        const rect = progressContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const percent = clickX / rect.width;
+        video.currentTime = percent * video.duration;
+    });
+
+    muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        muteBtn.style.opacity = video.muted ? "0.5" : "1";
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+        if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+        } else if (wrapper.webkitRequestFullscreen) {
+            wrapper.webkitRequestFullscreen();
+        }
+    });
+
+    video.addEventListener('ended', () => {
+        playBtnCenter.style.display = 'flex';
+    });
+})();
+
+
+
+    </script>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse) and (max-width: 1024px)").matches;
+            const a = isMobile ? 0.5 : 0.33;
+            const pageWidth = window.innerWidth*a;
+            const pageHeight =pageWidth * 1.414;
+
+            const pageFlip = new St.PageFlip(
+                document.getElementById("book"),
+                {
+                    width: pageWidth,
+                    height: pageHeight,
+                    size: "fixed",
+                    minWidth: 280,
+                    maxWidth: 500,
+                    minHeight: 395,
+                    maxHeight: 707,
+                    maxShadowOpacity: 0.85, // Ditingkatkan agar bayangan saat animasi flip lebih pekat
+                    showCover: true,
+                    autoSize: false,
+                    usePortrait:false,
+                    clickEventForward: false,
+                    disableFlipByClick: true,
+                }
+            );
+
+            // Simpan salinan "bersih" tiap halaman SEBELUM StPageFlip memuat &
+            // mengelolanya (loadFromHTML di bawah ini bisa mengubah/menambah
+            // inline style pada elemen aslinya untuk kebutuhan animasi flip).
+            // Salinan bersih ini dipakai nanti untuk membangun thumbnail di
+            // fitur "Lihat Semua Halaman", supaya pratinjaunya tidak ikut kena
+            // pengaruh apa pun dari library.
+            const pristinePages = Array.from(document.querySelectorAll(".page")).map((el) => el.cloneNode(true));
+
+            pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+
+            const displayBook = document.getElementById("book");
+            displayBook.style.display = "block";
+
+            const btnPrev = document.getElementById("btn-prev");
+            const btnNext = document.getElementById("btn-next");
+            const pageInput = document.getElementById("page-input");
+            const pageTotal = document.getElementById("page-total");
+
+            const btnFirst = document.getElementById('btn-first');
+            const btnLast = document.getElementById('btn-last');
+
+            if (btnFirst) {
+                btnFirst.addEventListener('click', () => {
+                    pageFlip.flip(0); // Ke cover / halaman 1
+                });
+            }
+
+            if (btnLast) {
+                btnLast.addEventListener('click', () => {
+                    const totalPages = pageFlip.getPageCount();
+                    pageFlip.flip(totalPages - 1); // Ke halaman paling akhir
+                });
+            }
+
+
+
+            btnPrev.addEventListener("click", () => pageFlip.flipPrev());
+            btnNext.addEventListener("click", () => pageFlip.flipNext());
+
+            // Sesuaikan lebar kotak input dengan jumlah digit yang tampil,
+            // supaya teks selalu pas di tengah pil (tidak ada spasi kosong tersembunyi)
+            function resizePageInput() {
+                const v = String(pageInput.value);
+                const len = v.length || 1;
+                // huruf (i, iv, Sampul) sedikit lebih lebar dari angka, beri ruang ekstra 1ch
+                pageInput.style.setProperty("--page-input-w", (/^\d+$/.test(v) ? len : len + 1) + "ch");
+            }
+
+            // ---- NOMOR HALAMAN CETAK (Sampul, i, ii, ... , 1, 2, ...) ----
+            // StPageFlip menghitung halaman secara fisik (sampul = 1, i = 2, dst.),
+            // sedangkan yang tercetak di footer tiap halaman berbeda. Label dibaca
+            // langsung dari footer masing-masing halaman supaya indikator selalu
+            // sama dengan nomor yang tampak di buku.
+            const pageSlash = document.getElementById("page-slash");
+            const pageLabels = pristinePages.map((el, i) => {
+                const footer = el.querySelector(".page-footer");
+                const token = footer ? footer.textContent.trim().split(/\s+/).pop() : "";
+                if (/^(\d+|[ivxlc]+)$/i.test(token)) return token.toLowerCase();
+                return (i === 0 || i === pristinePages.length - 1) ? "Sampul" : String(i + 1);
+            });
+            const pageLabelsLC = pageLabels.map((l) => l.toLowerCase());
+            const lastPrintedPage = Math.max(0, ...pageLabels.filter((l) => /^\d+$/.test(l)).map(Number));
+
+            // nomor fisik (1..jumlah halaman) -> label cetak
+            function labelFor(physicalPage) {
+                return pageLabels[physicalPage - 1] || String(physicalPage);
+            }
+
+            // teks yang diketik ("5", "iv", "sampul") -> nomor fisik, atau null jika tidak dikenali
+            function physicalFromLabel(text) {
+                const t = String(text).trim().toLowerCase();
+                if (!t) return null;
+                if (t === "cover") return 1;
+                let i = pageLabelsLC.indexOf(t);
+                if (i === -1 && /^\d+$/.test(t) && parseInt(t, 10) > lastPrintedPage) {
+                    i = pageLabelsLC.indexOf(String(lastPrintedPage)); // melebihi halaman terakhir -> ke halaman terakhir
+                }
+                return i === -1 ? null : i + 1;
+            }
+
+            // tampilkan indikator untuk halaman fisik tertentu
+            function showPageIndicator(physicalPage) {
+                const label = labelFor(physicalPage);
+                const numbered = /^\d+$/.test(label);
+                pageInput.value = label;
+                pageTotal.textContent = lastPrintedPage;
+                // "/ total" hanya relevan di halaman bernomor; disembunyikan di sampul & halaman romawi
+                pageSlash.style.display = numbered ? "" : "none";
+                pageTotal.style.display = numbered ? "" : "none";
+                resizePageInput();
+            }
+
+            // StPageFlip menampilkan halaman berpasangan (spread kiri-kanan) dan
+            // suka membetulkan sendiri index yang "tidak valid" (sisi kanan spread)
+            // ke spread terdekat. Arah pembetulannya beda tergantung datang dari arah
+            // mana (maju/mundur), jadi ini cuma dipakai sebagai TEBAKAN AWAL yang wajar.
+            // Hasil aslinya dicek & dikoreksi di goToTypedPage() di bawah.
+            function resolveFlipIndex(pageNum) {
+                const totalPages = pageFlip.getPageCount();
+                let index;
+                if (pageNum <= 1) {
+                    index = 0;
+                } else if (pageNum % 2 === 0) {
+                    index = pageNum - 1;
+                } else {
+                    index = pageNum - 2;
+                }
+                return Math.max(0, Math.min(index, totalPages - 1));
+            }
+
+            // Cek apakah halaman target sudah termasuk dalam spread (kiri/kanan) yang sedang tampil
+            function isTargetVisible(anchorIndex, targetPage) {
+                const anchorPage = anchorIndex + 1;
+                return (
+                    targetPage === anchorPage ||
+                    targetPage === anchorPage + 1 ||
+                    targetPage === anchorPage - 1
+                );
+            }
+
+            // Set indikator halaman langsung saat buku pertama kali dimuat
+            showPageIndicator(pageFlip.getCurrentPageIndex() + 1);
+
+            // Jeda otomatis semua video saat halaman flipbook berpindah
+            function pauseAllFlipbookVideos() {
+                document.querySelectorAll('.page video').forEach((vid) => {
+                    if (!vid.paused) {
+                        vid.pause();
+                    }
+                });
+            }
+
+            pageFlip.on("flip", (e) => {
+                pauseAllFlipbookVideos();
+
+                // Update tampilan untuk navigasi biasa (tombol prev/next/first/last, swipe).
+                // Navigasi lewat ketik nomor halaman (goToTypedPage) TIDAK lewat sini -
+                // ia pakai turnToPage() (instan, tanpa animasi) dan set tampilannya sendiri,
+                // supaya tidak ada animasi flip bertumpuk yang bikin konten berantakan di mobile.
+                if (document.activeElement !== pageInput) {
+                    showPageIndicator(e.data + 1);
+                }
+            });
+
+            // Update lebar kotak input sambil user mengetik
+            pageInput.addEventListener("input", resizePageInput);
+
+            // ---- NAVIGASI VIA KETIK NOMOR HALAMAN ----
+            function goToTypedPage() {
+                pauseAllFlipbookVideos();
+
+                const totalPages = pageFlip.getPageCount();
+                // Teks yang diketik berupa nomor cetak (mis. "5" atau "iv") -> ubah ke nomor halaman fisik
+                let target = physicalFromLabel(pageInput.value);
+
+                if (target === null) {
+                    target = pageFlip.getCurrentPageIndex() + 1;
+                }
+                target = Math.min(Math.max(target, 1), totalPages);
+
+                showPageIndicator(target);
+
+                if (isTargetVisible(pageFlip.getCurrentPageIndex(), target)) {
+                    return; // sudah kelihatan di spread saat ini, tidak perlu pindah
+                }
+
+                // turnToPage() = loncat LANGSUNG tanpa animasi. Karena instan (sinkron),
+                // kita bisa cek & koreksi hasilnya di tempat, tanpa perlu menumpuk beberapa
+                // animasi flip() berurutan (itu penyebab tampilan berantakan di HP).
+                let guessIndex = resolveFlipIndex(target);
+                let attempts = 0;
+                const MAX_CORRECTION_ATTEMPTS = 5;
+
+                pageFlip.turnToPage(guessIndex);
+
+                while (!isTargetVisible(pageFlip.getCurrentPageIndex(), target) && attempts < MAX_CORRECTION_ATTEMPTS) {
+                    const anchorPage = pageFlip.getCurrentPageIndex() + 1;
+                    const step = target > anchorPage ? 1 : -1;
+                    const nextIndex = Math.max(0, Math.min(pageFlip.getCurrentPageIndex() + step, totalPages - 1));
+                    if (nextIndex === pageFlip.getCurrentPageIndex()) break;
+                    pageFlip.turnToPage(nextIndex);
+                    attempts++;
+                }
+
+                const finalIndex = pageFlip.getCurrentPageIndex();
+                showPageIndicator(isTargetVisible(finalIndex, target) ? target : (finalIndex + 1));
+            }
+
+            pageInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    goToTypedPage();
+                    pageInput.blur();
+                }
+            });
+
+            pageInput.addEventListener("blur", goToTypedPage);
+            pageInput.addEventListener("click", (e) => e.stopPropagation());
+            pageInput.addEventListener("pointerdown", (e) => e.stopPropagation());
+
+            // ================================================
+            // FITUR ZOOM IN / ZOOM OUT
+            // ================================================
+            const zoomWrapper = document.getElementById("zoom-wrapper");
+            const btnZoomIn = document.getElementById("btn-zoom-in");
+            const btnZoomOut = document.getElementById("btn-zoom-out");
+
+            let zoomLevel = 1;
+            const ZOOM_STEP = 0.15;
+            const ZOOM_MIN = 0.6;
+            const ZOOM_MAX = 2.2;
+
+            // Posisi geser (pan) saat ini, aktif ketika zoomLevel != 1
+            let panX = 0;
+            let panY = 0;
+
+            function applyZoom() {
+                // Balik ke posisi tengah setiap kali zoom kembali ke 100%
+                if (zoomLevel === 1) {
+                    panX = 0;
+                    panY = 0;
+                }
+                zoomWrapper.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+                zoomWrapper.classList.toggle("zoomed", zoomLevel !== 1);
+            }
+
+            btnZoomIn.addEventListener("click", () => {
+                zoomLevel = Math.min(ZOOM_MAX, +(zoomLevel + ZOOM_STEP).toFixed(2));
+                applyZoom();
+            });
+
+            btnZoomOut.addEventListener("click", () => {
+                zoomLevel = Math.max(ZOOM_MIN, +(zoomLevel - ZOOM_STEP).toFixed(2));
+                applyZoom();
+            });
+
+            // ---- GESER (PAN) TAMPILAN SAAT SEDANG DI-ZOOM ----
+            // Aktif otomatis kalau zoomLevel bukan 100%, supaya bagian yang
+            // terpotong di layar tetap bisa dijangkau dengan klik-tahan-geser
+            // (mouse) atau sentuh-geser (touch/mobile).
+            let isPanning = false;
+            let panStartX = 0;
+            let panStartY = 0;
+            let panOriginX = 0;
+            let panOriginY = 0;
+
+            zoomWrapper.addEventListener("pointerdown", (e) => {
+                if (zoomLevel === 1) return; // di ukuran normal, biarkan interaksi buku seperti biasa
+                isPanning = true;
+                panStartX = e.clientX;
+                panStartY = e.clientY;
+                panOriginX = panX;
+                panOriginY = panY;
+                zoomWrapper.classList.add("panning");
+                zoomWrapper.setPointerCapture(e.pointerId);
+                e.preventDefault();
+            });
+
+            zoomWrapper.addEventListener("pointermove", (e) => {
+                if (!isPanning || pinchStartDist) return;
+                panX = panOriginX + (e.clientX - panStartX);
+                panY = panOriginY + (e.clientY - panStartY);
+                zoomWrapper.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+            });
+
+            function endPan(e) {
+                if (!isPanning) return;
+                isPanning = false;
+                zoomWrapper.classList.remove("panning");
+                try { zoomWrapper.releasePointerCapture(e.pointerId); } catch (err) { /* abaikan */ }
+            }
+            zoomWrapper.addEventListener("pointerup", endPan);
+            zoomWrapper.addEventListener("pointercancel", endPan);
+
+            // ---- PINCH-TO-ZOOM (dua jari) ----
+            let pinchStartDist = 0;
+            let pinchStartZoom = 1;
+            const touchDist = (t) =>
+                Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+
+            zoomWrapper.addEventListener("touchstart", (e) => {
+                if (e.touches.length === 2) {
+                    e.stopPropagation();        // cegah StPageFlip menganggap ini gestur balik halaman
+                    isPanning = false;
+                    pinchStartDist = touchDist(e.touches);
+                    pinchStartZoom = zoomLevel;
+                    zoomWrapper.style.transition = "none"; // supaya tidak lag saat dicubit
+                    zoomWrapper.style.willChange = "transform"; // hanya selama gestur, demi kelancaran
+                }
+            }, { capture: true, passive: true });
+
+            zoomWrapper.addEventListener("touchmove", (e) => {
+                if (e.touches.length === 2 && pinchStartDist) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const next = pinchStartZoom * (touchDist(e.touches) / pinchStartDist);
+                    zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, +next.toFixed(2)));
+                    applyZoom();
+                }
+            }, { capture: true, passive: false });
+
+            function endPinch(e) {
+                if (e.touches.length < 2 && pinchStartDist) {
+                    pinchStartDist = 0;
+                    zoomWrapper.style.transition = ""; // kembalikan transisi normal
+                    zoomWrapper.style.willChange = "";  // lepas agar browser me-render ulang teks dengan tajam
+                }
+            }
+            zoomWrapper.addEventListener("touchend", endPinch, { capture: true });
+            zoomWrapper.addEventListener("touchcancel", endPinch, { capture: true });
+
+            // ================================================
+            // FITUR FULLSCREEN
+            // ================================================
+            const btnFullscreen = document.getElementById("btn-fullscreen");
+            const fullscreenIconEl = btnFullscreen.querySelector("[data-lucide]");
+
+            function isFullscreenActive() {
+                return !!(document.fullscreenElement || document.webkitFullscreenElement);
+            }
+
+            function enterFullscreen() {
+                const el = document.documentElement;
+                if (el.requestFullscreen) el.requestFullscreen();
+                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen(); // Safari
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); // Safari
+            }
+
+            function updateFullscreenIcon() {
+                const iconName = isFullscreenActive() ? "minimize" : "maximize";
+                fullscreenIconEl.setAttribute("data-lucide", iconName);
+                btnFullscreen.title = isFullscreenActive() ? "Keluar layar penuh" : "Layar penuh";
+                // Gambar ulang ikon lucide karena atribut data-lucide berubah
+                lucide.createIcons();
+            }
+
+            btnFullscreen.addEventListener("click", () => {
+                if (isFullscreenActive()) {
+                    exitFullscreen();
+                } else {
+                    enterFullscreen();
+                }
+            });
+
+            document.addEventListener("fullscreenchange", updateFullscreenIcon);
+            document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
+
+            // ================================================
+            // FITUR SHARE
+            // ================================================
+            const btnShare = document.getElementById("btn-share");
+            const shareIconEl = btnShare.querySelector("[data-lucide]");
+            const shareDefaultTitle = btnShare.title;
+
+            // Tampilkan ikon centang sebentar sebagai feedback, lalu balik ke ikon share
+            function flashShareFeedback(iconName, titleText) {
+                shareIconEl.setAttribute("data-lucide", iconName);
+                btnShare.title = titleText;
+                lucide.createIcons();
+                setTimeout(() => {
+                    shareIconEl.setAttribute("data-lucide", "share-2");
+                    btnShare.title = shareDefaultTitle;
+                    lucide.createIcons();
+                }, 1500);
+            }
+
+            btnShare.addEventListener("click", async () => {
+                const shareData = {
+                    title: document.title,
+                    url: window.location.href
+                };
+
+                // Prioritaskan Web Share API (muncul share-sheet asli perangkat)
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                    } catch (err) {
+                        // Dibatalkan oleh user / gagal -> tidak perlu tindakan lain
+                    }
+                    return;
+                }
+
+                // Fallback kalau browser tidak mendukung Web Share API: salin link
+                try {
+                    await navigator.clipboard.writeText(shareData.url);
+                    flashShareFeedback("check", "Link disalin!");
+                } catch (err) {
+                    flashShareFeedback("x", "Gagal menyalin link");
+                }
+            });
+
+            // ================================================
+            // FITUR CARI KATA
+            // ================================================
+            const btnSearch = document.getElementById("btn-search");
+            const btnSearchClose = document.getElementById("btn-search-close");
+            const searchPanel = document.getElementById("search-panel");
+            const searchInput = document.getElementById("search-input");
+            const searchMeta = document.getElementById("search-meta");
+            const searchResultsEl = document.getElementById("search-results");
+
+            // Bangun index teks tiap halaman sekali saja saat load (dipakai untuk pencarian)
+            const pageTextIndex = Array.from(document.querySelectorAll(".page")).map((el, i) => {
+                const text = el.textContent.replace(/\s+/g, " ").trim();
+                return { pageNumber: i + 1, text, lower: text.toLowerCase() };
+            });
+
+            function openSearchPanel() {
+                searchPanel.classList.add("open");
+                searchInput.focus();
+            }
+
+            function closeSearchPanel() {
+                searchPanel.classList.remove("open");
+            }
+
+            btnSearch.addEventListener("click", () => {
+                if (searchPanel.classList.contains("open")) {
+                    closeSearchPanel();
+                } else {
+                    openSearchPanel();
+                }
+            });
+            btnSearchClose.addEventListener("click", closeSearchPanel);
+
+            // Cegah klik/drag di dalam panel ikut memicu pan-zoom atau interaksi buku di belakangnya
+            searchPanel.addEventListener("pointerdown", (e) => e.stopPropagation());
+            searchPanel.addEventListener("click", (e) => e.stopPropagation());
+
+            // Lompat ke halaman hasil pencarian, pakai logika navigasi yang sama
+            // robust-nya dengan navigasi ketik-nomor-halaman (turnToPage + koreksi
+            // otomatis spread kiri/kanan lewat resolveFlipIndex & isTargetVisible).
+            function jumpToSearchResultPage(target) {
+                pauseAllFlipbookVideos();
+
+                const totalPages = pageFlip.getPageCount();
+                target = Math.min(Math.max(target, 1), totalPages);
+
+                if (!isTargetVisible(pageFlip.getCurrentPageIndex(), target)) {
+                    let attempts = 0;
+                    const MAX_CORRECTION_ATTEMPTS = 5;
+                    pageFlip.turnToPage(resolveFlipIndex(target));
+
+                    while (!isTargetVisible(pageFlip.getCurrentPageIndex(), target) && attempts < MAX_CORRECTION_ATTEMPTS) {
+                        const anchorPage = pageFlip.getCurrentPageIndex() + 1;
+                        const step = target > anchorPage ? 1 : -1;
+                        const nextIndex = Math.max(0, Math.min(pageFlip.getCurrentPageIndex() + step, totalPages - 1));
+                        if (nextIndex === pageFlip.getCurrentPageIndex()) break;
+                        pageFlip.turnToPage(nextIndex);
+                        attempts++;
+                    }
+                }
+
+                const finalIndex = pageFlip.getCurrentPageIndex();
+                showPageIndicator(isTargetVisible(finalIndex, target) ? target : (finalIndex + 1));
+
+                closeSearchPanel();
+            }
+
+            function renderSearchResults(query) {
+                searchResultsEl.textContent = ""; // kosongkan lewat DOM API, aman dari input user
+                const q = query.trim().toLowerCase();
+
+                if (!q) {
+                    searchMeta.textContent = "";
+                    return;
+                }
+
+                const matches = [];
+                pageTextIndex.forEach((p) => {
+                    const idx = p.lower.indexOf(q);
+                    if (idx !== -1) {
+                        matches.push({ pageNumber: p.pageNumber, text: p.text, idx });
+                    }
+                });
+
+                searchMeta.textContent = matches.length
+                    ? `${matches.length} halaman ditemukan`
+                    : "Tidak ditemukan";
+
+                matches.forEach((m) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "search-result-item";
+
+                    const label = document.createElement("b");
+                    label.textContent = `Halaman ${labelFor(m.pageNumber)}`;
+                    btn.appendChild(label);
+
+                    // Susun cuplikan teks di sekitar kata yang ditemukan, kata kuncinya
+                    // ditandai <mark> lewat DOM API (bukan innerHTML) supaya aman dari input user
+                    const snippetStart = Math.max(0, m.idx - 30);
+                    const snippetEnd = Math.min(m.text.length, m.idx + q.length + 30);
+                    const before = (snippetStart > 0 ? "…" : "") + m.text.slice(snippetStart, m.idx);
+                    const matchText = m.text.slice(m.idx, m.idx + q.length);
+                    const after = m.text.slice(m.idx + q.length, snippetEnd) + (snippetEnd < m.text.length ? "…" : "");
+
+                    btn.appendChild(document.createTextNode(before));
+                    const mark = document.createElement("mark");
+                    mark.textContent = matchText;
+                    btn.appendChild(mark);
+                    btn.appendChild(document.createTextNode(after));
+
+                    btn.addEventListener("click", () => jumpToSearchResultPage(m.pageNumber));
+
+                    searchResultsEl.appendChild(btn);
+                });
+            }
+
+            searchInput.addEventListener("input", () => renderSearchResults(searchInput.value));
+
+            searchInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const firstResult = searchResultsEl.querySelector(".search-result-item");
+                    if (firstResult) firstResult.click();
+                } else if (e.key === "Escape") {
+                    closeSearchPanel();
+                }
+            });
+
+            // ================================================
+            // FITUR LIHAT SEMUA HALAMAN
+            // ================================================
+            const btnAllPages = document.getElementById("btn-allpages");
+            const btnAllPagesClose = document.getElementById("btn-allpages-close");
+            const allPagesOverlay = document.getElementById("allpages-overlay");
+            const allPagesGrid = document.getElementById("allpages-grid");
+
+            let allPagesBuilt = false;
+
+            // Bangun grid thumbnail sekali saja (di klik pertama), lalu dipakai ulang
+            function buildAllPagesGrid() {
+                if (allPagesBuilt) return;
+                allPagesBuilt = true;
+
+                pristinePages.forEach((pageEl, i) => {
+                    const pageNumber = i + 1;
+
+                    const thumbBtn = document.createElement("button");
+                    thumbBtn.type = "button";
+                    thumbBtn.className = "allpages-thumb";
+
+                    const frame = document.createElement("div");
+                    frame.className = "allpages-thumb-frame";
+
+                    // Klon dari salinan BERSIH (pristinePages) yang direkam sebelum
+                    // StPageFlip sempat mengubah apa pun, supaya thumbnail pasti
+                    // tampil sama seperti halaman aslinya.
+                    const clone = pageEl.cloneNode(true);
+                    clone.removeAttribute("style");
+                    clone.style.width = pageWidth + "px";
+                    clone.style.height = pageHeight + "px";
+                    clone.classList.add("thumb-clone");
+                    frame.appendChild(clone);
+
+                    const label = document.createElement("span");
+                    label.className = "allpages-thumb-label";
+                    label.textContent = labelFor(pageNumber);
+
+                    thumbBtn.appendChild(frame);
+                    thumbBtn.appendChild(label);
+                    thumbBtn.addEventListener("click", () => {
+                        jumpToSearchResultPage(pageNumber); // pakai ulang logika loncat halaman yang sudah ada
+                        closeAllPagesOverlay();
+                    });
+
+                    allPagesGrid.appendChild(thumbBtn);
+                });
+            }
+
+            // Skala tiap thumbnail supaya pas mengisi frame-nya (dihitung ulang
+            // tiap overlay dibuka / jendela di-resize, karena lebar frame responsif)
+            function resizeAllThumbs() {
+                const frame = allPagesGrid.querySelector(".allpages-thumb-frame");
+                if (!frame) return;
+                const scale = frame.clientWidth / pageWidth;
+                allPagesGrid.querySelectorAll(".thumb-clone").forEach((clone) => {
+                    clone.style.transform = `scale(${scale})`;
+                });
+            }
+
+            function openAllPagesOverlay() {
+                buildAllPagesGrid();
+                allPagesOverlay.classList.add("open");
+                requestAnimationFrame(resizeAllThumbs);
+            }
+
+            function closeAllPagesOverlay() {
+                allPagesOverlay.classList.remove("open");
+            }
+
+            btnAllPages.addEventListener("click", openAllPagesOverlay);
+            btnAllPagesClose.addEventListener("click", closeAllPagesOverlay);
+
+            // Klik area gelap di luar panel -> tutup overlay
+            allPagesOverlay.addEventListener("click", (e) => {
+                if (e.target === allPagesOverlay) closeAllPagesOverlay();
+            });
+
+            window.addEventListener("resize", () => {
+                if (allPagesOverlay.classList.contains("open")) resizeAllThumbs();
+            });
+        });
+    </script>
+</body>
+</html>

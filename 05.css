@@ -1,0 +1,30 @@
+/* ==========================================
+   STYLING KHUSUS HALAMAN 5 (IPK)
+   ========================================== */
+
+
+.content-box-5 {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #475569;
+    border-radius: 4px;
+    margin-top:calc(var(--page-width) / 35);
+    padding: calc(var(--page-width) / 30) calc(var(--page-width) / 35);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ipk-list-5 {
+    margin: 0;
+    padding-left: calc(var(--page-width) / 70);
+    padding-right: calc(var(--page-width) / 100);
+}
+
+.ipk-list-5 li {
+    font-size: calc(var(--page-width) / 42);
+    line-height: 1.5;
+    color: #0f172a;
+    text-align: justify;
+}
+
+.ipk-list-5 li:last-child {
+    margin-bottom: 0;
+}

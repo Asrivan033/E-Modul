@@ -1,0 +1,69 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 03 (DAFTAR ISI)
+ *  ========================================== */
+
+/* Kontainer Utama Daftar Isi */
+.pengantar-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding-top: 0; /* Diperbaiki dari 'none' menjadi '0' */
+}
+
+/* Judul Utama Daftar Isi (Pita Biru Toska) */
+.pengantar-container .title-pengantar {
+    display: block;
+    align-self: center;
+    text-align: center;
+    background-color: #117899;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: calc(var(--page-width) / 45);
+    padding: calc(var(--page-width) / 75) calc(var(--page-width) / 12);
+    border-radius: calc(var(--page-width) / 120);
+    letter-spacing: calc(var(--page-width) / 200);
+    margin-bottom: calc(var(--page-width) / 35); /* Diperkecil spasi bawah pita */
+    box-shadow: 0 calc(var(--page-width) / 180) calc(var(--page-width) / 90) rgba(0, 0, 0, 0.15);
+}
+
+/* Baris Tiap Item Daftar Isi */
+.toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: calc(var(--page-width) / 45);
+
+    /* 1. UBAH DI SINI UNTUK TEKS YANG TERSAMBUNG KE BARIS BUKAN (1.1 - 1.25) */
+    line-height: 1.15;
+
+    color: #000000;
+
+    /* 2. UBAH DI SINI UNTUK JARAK ANTAR-ITEM DAFTAR ISI */
+    /* Pembagi diperbesar (120 -> 250) agar jarak antarbaris jauh lebih rapat */
+    margin-bottom: calc(var(--page-width) / 250);
+}
+
+/* Indentasi untuk Sub-Bab (A, B, C...) */
+.toc-item.indent {
+    padding-left: calc(var(--page-width) / 18);
+}
+
+/* Judul Kategori Tebal */
+.toc-item .title.bold {
+    font-weight: 700;
+}
+
+/* Teks Judul Biasa */
+.toc-item .title {
+    font-weight: 400;
+}
+
+/* Nomor Halaman di Sebelah Kanan */
+.toc-item .hal {
+    font-weight: 400;
+    text-align: right;
+    min-width: calc(var(--page-width) / 15);
+    font-family: 'Times New Roman', Times, serif;
+}

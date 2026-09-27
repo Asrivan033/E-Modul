@@ -1,0 +1,203 @@
+/* ==========================================
+ *  STYLING HALAMAN 19 (RESPONSIF FULL VAR)
+ *  ========================================== */
+
+.content-container-19 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.5;
+    display: block !important;
+}
+
+.shifted-right-19 {
+    padding-left: calc(var(--page-width) / 25
+    );
+    padding-right: calc(var(--page-width) / 60);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+.desc-text-19 {
+    margin: 0 0 calc(var(--page-width) / 150) 0;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+/* ==========================================
+ * 1. SEKSI CEK PEMAHAMAN
+ * ========================================== */
+.cek-pemahaman-wrapper-19 {
+    position: relative;
+    margin-bottom: calc(var(--page-width) / 30);
+}
+
+/* IKON BUKU BEBAS X & Y */
+.icon-books-box-19 {
+    position: absolute;
+    /* Nilai default koordinat X (left) dan Y (top) */
+    left: calc(var(--page-width) /-50);
+    top: calc(var(--page-width) / -45);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.icon-books-19 {
+    width: calc(var(--page-width) / 11);
+    height: auto;
+    display: block;
+}
+
+.cek-header-19 {
+    display: flex;
+    align-items: center;
+    margin-bottom: calc(var(--page-width) / -200);
+    padding-left: calc(var(--page-width) / 15); /* Ruang agar tidak tertimpa ikon buku */
+}
+
+.text-cek-pemahaman-19 {
+    font-family: "Monotype Corsiva", "Dancing Script", cursive !important;
+    font-size: calc(var(--page-width) / 30);
+    font-weight: bold;
+    color: #6b21a8;
+    font-style: italic;
+}
+
+.card-cek-19 {
+    background-color: #fff3e0;
+    border: calc(var(--page-width) / 350) dashed #60a5fa;
+    border-radius: calc(var(--page-width) / 100);
+    padding: calc(var(--page-width) / 35);
+    box-sizing: border-box;
+}
+
+.nilai-note-19 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 250);
+    margin-top: calc(var(--page-width) / 80);
+}
+
+.note-row-19 {
+    display: flex;
+    align-items: flex-start;
+    gap: calc(var(--page-width) / 100);
+}
+
+/* Kunci utama: Menjaga lebar label agar baris kedua teks rata kiri secara konsisten */
+.note-label-19 {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.note-text-19 {
+    flex-grow: 1;
+    text-align: justify;
+}
+/* ==========================================
+ * 2. SEKSI D. LATIHAN SOAL
+ * ========================================== */
+.latihan-wrapper-19 {
+    margin-top: calc(var(--page-width) / 10);
+
+}
+
+
+
+.card-latihan-19 {
+    position: relative; /* Kunci koordinat absolut untuk ikon siswa & badge */
+    border: calc(var(--page-width) / 350) solid #60a5fa;
+    padding: calc(var(--page-width) / 30);
+    box-sizing: border-box;
+    margin-top: calc(var(--page-width) / 20);
+}
+
+/* IKON SISWA BEBAS X & Y */
+.icon-student-box-19 {
+    position: absolute;
+    /* Nilai default koordinat X (left) dan Y (top) */
+    left: calc(var(--page-width) / -80);
+    top: calc(var(--page-width) / -8);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.icon-student-19 {
+    width: calc(var(--page-width) / 6);
+    height: auto;
+    display: block;
+}
+
+/* BADGE SCRIPT "Latihan Soal" BEBAS X & Y */
+.badge-latihan-box-19 {
+    position: absolute;
+    /* Nilai default koordinat X (left) dan Y (top) */
+    left: calc(var(--page-width) / 7);
+    top: calc(var(--page-width) / -30);
+    z-index: 9;
+}
+
+.badge-latihan-script-19 {
+    background-color: #f1f5f9;
+    border: calc(var(--page-width) / 450) solid #0f172a;
+    border-radius: calc(var(--page-width) / 150);
+    padding: calc(var(--page-width) / 250) calc(var(--page-width) / 50);
+    font-family: "Monotype Corsiva", "Dancing Script", cursive !important;
+    font-size: calc(var(--page-width) / 35);
+    font-weight: bold;
+    font-style: italic;
+    color: #000000;
+}
+
+/* ==========================================
+ * TOMBOL & LINK
+ * ========================================== */
+.btn-container-center-19 {
+    display: flex;
+    justify-content: center;
+    margin: calc(var(--page-width) / 60) 0;
+}
+
+.margin-top-btn-19 {
+    margin-top: calc(var(--page-width) / 25);
+}
+
+.btn-orange-19 {
+    display: inline-block;
+    background-color: #ffedd5;
+    color: #2563eb !important;
+    text-decoration: underline;
+    font-weight: bold;
+    padding: calc(var(--page-width) / 120) calc(var(--page-width) / 30);
+    border-radius: calc(var(--page-width) / 120);
+    font-size: calc(var(--page-width) / 48);
+    text-align: center;
+}
+
+.btn-red-border-19 {
+    display: inline-block;
+    background-color: #ffedd5;
+    border: calc(var(--page-width) / 300) solid #dc2626;
+    color: #2563eb !important;
+    text-decoration: underline;
+    font-weight: bold;
+    padding: calc(var(--page-width) / 120) calc(var(--page-width) / 30);
+    border-radius: calc(var(--page-width) / 100);
+    font-size: calc(var(--page-width) / 47);
+    text-align: center;
+}
+
+.list-latihan-19 {
+    margin: calc(var(--page-width) / 60) 0 0 0;
+    padding-left: calc(var(--page-width) / 100);
+}
+
+.list-latihan-19 li {
+    margin-bottom: calc(var(--page-width) / 150);
+    font-size:calc(var(--page-width) / 50);
+}
+
+.inline-link-blue-19 {
+    color: #2563eb !important;
+    text-decoration: underline;
+    word-break: break-all;
+}

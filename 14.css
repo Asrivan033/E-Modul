@@ -1,0 +1,128 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 14
+ *  ========================================== */
+
+.content-container-14 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #0f172a;
+    line-height: 1.4;
+    display: block !important;
+}
+
+.shifted-right-14 {
+    padding-left: calc(var(--page-width) / 25);
+    margin-top: calc(var(--page-width) / 40);
+}
+
+/* ==========================================
+ *  1. LANGKAH FBD (ATAS) & GAMBAR
+ *  ========================================== */
+.step-fbd-14 {
+    padding-left: calc(var(--page-width) / 20);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.image-step-box-14 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: calc(var(--page-width) / 150);
+    margin-bottom: calc(var(--page-width) / 100);
+    padding-left: calc(var(--page-width) / 20);
+}
+
+.image-step-box-14 img {
+    max-width: 45%;
+    height: auto;
+    object-fit: contain;
+}
+
+.left-align-14 {
+    padding-left: calc(var(--page-width) / 30);
+}
+
+/* ==========================================
+ *  2. DIKETAHUI / DITANYA / JAWAB GRID
+ *  ========================================== */
+.penyelesaian-sub-14 {
+    margin-top: calc(var(--page-width) / 80);
+}
+
+.section-title-14 {
+    margin-bottom: calc(var(--page-width) / 100);
+}
+
+.diketahui-grid-14 {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    column-gap: calc(var(--page-width) / 80);
+    row-gap: calc(var(--page-width) / 150);
+    padding-left: calc(var(--page-width) / 30);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.dik-label-14 {
+    font-weight: normal;
+}
+
+.dik-colon-14 {
+    padding-right: calc(var(--page-width) / 100);
+}
+
+.dik-content-14 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 200);
+}
+
+/* ==========================================
+ *  3. LANGKAH PERHITUNGAN MATEMATIKA
+ *  ========================================== */
+.hitung-section-14 {
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.hitung-title-14 {
+    margin-bottom: calc(var(--page-width) / 200);
+}
+
+.math-step-14 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--page-width) / 120);
+    padding-left: calc(var(--page-width) / 30);
+}
+
+.arah-list-14 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--page-width) / 200);
+    padding-left: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 150);
+}
+
+/* ==========================================
+ *  4. KATEX STYLING HALAMAN 14
+ *  ========================================== */
+.content-container-14 .katex {
+    font-size: 1.05em !important;
+    line-height: normal !important;
+}
+
+.content-container-14 .katex .msupsub {
+    font-size: 0.75em !important;
+}
+
+.math-step-14 .katex .numerator {
+    padding-bottom: calc(var(--page-width) / 250) !important;
+}
+
+.math-step-14 .katex .denominator {
+    padding-top: calc(var(--page-width) / 300) !important;
+}
+
+.math-step-14 .katex .frac-line {
+    border-bottom-width: calc(var(--page-width) / 750) !important;
+}

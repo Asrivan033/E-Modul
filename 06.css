@@ -1,0 +1,214 @@
+/* ==========================================
+ *  STYLING KHUSUS HALAMAN 6 (KEGIATAN PEMBELAJARAN I)
+ * ========================================== */
+
+/* BANNER JUDUL ATAS */
+.header-banner-6 {
+    background: linear-gradient(135deg, #e06d53 0%, #d95338 100%);
+    border-radius: calc(var(--page-width) / 30);
+    padding: calc(var(--page-width) / 200) calc(var(--page-width) / 20);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 30);
+    margin-bottom: calc(var(--page-width) / 40);
+    border: calc(var(--page-width) *0.0001) solid #ffffff;
+}
+
+.banner-icon-container-6 {
+    width: calc(var(--page-width) / 7.5);
+    height: calc(var(--page-width) / 7.5);
+    border-radius: 50%;
+    overflow: hidden;
+    border: calc(var(--page-width) *0.0001) solid #ffffff;
+    flex-shrink: 0;
+    background-color: #ffffff;
+}
+
+.banner-img-6 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-text-6 {
+    color: #ffffff;
+}
+
+.banner-text-6 h2 {
+    font-size: calc(var(--page-width) / 35);
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.banner-text-6 h3 {
+    font-size: calc(var(--page-width) / 40);
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* KOTAK BINGKAI BERGARIS PUTUS-PUTUS */
+.dashed-box-6 {
+    border: calc(var(--page-width) *0.001) dashed #0284c7;
+    border-radius: calc(var(--page-width) / 80);
+    padding: calc(var(--page-width) / 35);
+    background-color: rgba(255, 255, 255, 0.85);
+    height: auto;
+    overflow: visible;
+}
+
+.instruction-text-6 {
+    font-size: calc(var(--page-width) / 45);
+    color: #0f172a;
+    margin-bottom: calc(var(--page-width) / 50);
+}
+
+/* PEMUTAR VIDEO MODERN (CONTAINER 16:9) */
+.video-container-local-6 {
+    position: relative;
+    width: 70%;
+    aspect-ratio: 16 / 9;
+    margin: calc(var(--page-width) / 50) auto calc(var(--page-width) / 80) auto;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.video-container-local-6 video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* TOMBOL PLAY TENGAH */
+.play-btn-center-6 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(var(--page-width) / 10);
+    height: calc(var(--page-width) / 10);
+    max-width: 54px;
+    max-height: 54px;
+    background: rgba(224, 109, 83, 0.85);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.play-btn-center-6:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: #d95338;
+}
+
+.play-btn-center-6 svg {
+    width: 50%;
+    height: 50%;
+    margin-left: 2px;
+}
+
+/* OVERLAY KONTROL BAWAH */
+.video-controls-overlay-6 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: calc(var(--page-width) / 80) calc(var(--page-width) / 50);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    display: flex;
+    align-items: center;
+    gap: calc(var(--page-width) / 60);
+    z-index: 6;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.ctrl-btn-6 {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: calc(var(--page-width) / 30);
+    height: calc(var(--page-width) / 30);
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.ctrl-btn-6 svg {
+    width: 100%;
+    height: 100%;
+}
+
+.time-display-6 {
+    color: #ffffff;
+    font-size: calc(var(--page-width) / 65);
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/* PROGRESS BAR */
+.progress-bar-container-6 {
+    flex-grow: 1;
+    height:calc(var(--page-width) *0.006);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-fill-6 {
+    width: 0%;
+    height: 100%;
+    background: #e06d53;
+    border-radius: 3px;
+}
+
+/* CAPTION VIDEO */
+.video-caption-6 {
+    text-align: center;
+    margin-bottom: calc(var(--page-width) / 70);
+}
+
+.video-caption-6 .caption-title {
+    font-size: calc(var(--page-width) / 50);
+    color: #0f172a;
+    margin: 0;
+}
+
+.video-caption-6 .caption-source {
+    font-size: calc(var(--page-width) / 52);
+    color: #ff0000;
+    margin: 0;
+}
+
+/* PARAGRAF PENJELASAN */
+.paragraph-container-6 {
+    width: 100%;
+    display: block;
+}
+
+.paragraph-container-6 p {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    color: #0f172a;
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 15);
+    display: block;
+}
+
+.paragraph-container-6 p:last-child {
+    margin-bottom: 0;
+}

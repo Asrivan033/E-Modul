@@ -1,0 +1,165 @@
+/* ==========================================================================
+ *  1. LAYOUT & CONTAINER UTAMA (HALAMAN 12)
+ *  ========================================================================== */
+.content-12 {
+    padding-top:calc(var(--page-width) / 25);
+    font-family: "Times New Roman", Times, serif;
+    font-size: calc(var(--page-width) / 47);
+    color: #000;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+/* Paragraf Teks */
+.paragraph-12 {
+    text-align: justify;
+    text-indent: calc(var(--page-width) / 15);
+    line-height: 1.5;
+
+}
+
+
+.example-title-badge-12{
+    color:#000080;
+    font-size:calc(var(--page-width) / 35);
+    background-color:#D3D3D3;
+    height: calc(var(--page-width) / 23);
+    width:calc(var(--page-width) / 5);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transform: translate(calc(var(--page-width) / -100), calc(var(--page-width) / -1.26));
+    border-radius: 0 2px 0 0;
+    font-weight: bold;
+    }
+
+    .example-title-badge1-12{
+        background-color:#D3D3D3;
+        color:#D3D3D3;
+        height: calc(var(--page-width) /12);
+        width:calc(var(--page-width) / 9);
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translate(calc(var(--page-width) / 10000), calc(var(--page-width) / -1.235));
+       border-radius: calc(var(--page-width) / 5) calc(var(--page-width) / 5) 0 0;
+
+    }
+
+
+/* ==========================================================================
+ *  2. STYLING KATEX (MOBILE & DESKTOP STABLE)
+ *  ========================================================================== */
+/* Mengunci ukuran dasar KaTeX mengikuti parent CSS */
+.content-12 .katex {
+    font-size: 1em !important;
+    line-height: normal !important;
+}
+
+/* Menjaga proporsi subskrip (q1, q2) dan superskrip (10^-6) agar tetap kecil */
+.content-12 .katex .msupsub {
+    font-size: 0.75em !important;
+}
+
+/* Pengaturan khusus untuk display math jika ada */
+.content-12 .katex-display {
+    margin: calc(var(--page-width) / 100) 0 !important;
+    text-align: center;
+}
+
+
+/* icon pensil*/
+
+.example-header-12 {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.pencil-icon-12 {
+    background:transparent;
+    width: calc(var(--page-width) / 9);
+    height: auto;
+    margin-right: calc(var(--page-width) / -60);
+    vertical-align: middle;
+    margin-left:calc(var(--page-width) / -60);
+    position: relative;
+    z-index: 10;
+    transform: translate(calc(var(--page-width) / -3.3), calc(var(--page-width) / -1.22));
+
+
+}
+
+/* ==========================================================================
+ *  3. ELEMEN DEKORASI & BADGE HEADER
+ *  ========================================================================== */
+.contoh-soal-header-12 {
+}
+
+.badge-title-12 {
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: calc(var(--page-width) / 42);
+    padding-left: calc(var(--page-width) / 40);
+    padding-right: calc(var(--page-width) / 30);
+    border-radius: 0 calc(var(--page-width) / 35) calc(var(--page-width) / 35) 0;
+    display: inline-block;
+}
+
+/* ==========================================================================
+ *  4. STRUCTURED LISTS (SOAL & SUB-SOAL)
+ *  ========================================================================== */
+.soal-list-12 {
+    padding-left: calc(var(--page-width) / 50);
+    margin-bottom: calc(var(--page-width) / 60);
+    padding-top: calc(var(--page-width) / 35);
+    border-top: calc(var(--page-width) / 90) solid #D3D3D3;
+}
+
+.sub-soal-12 {
+    padding-left: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 100);
+}
+
+.penyelesaian-title-12 {
+}
+
+.sub-heading-12 {
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+/* ==========================================================================
+ *  5. DIAGRAM GAMBAR & TABEL PERHITUNGAN
+ *  ========================================================================== */
+.diagram-container-12 {
+    text-align: center;
+    margin-top: calc(var(--page-width) / 60);
+    margin-bottom: calc(var(--page-width) / 40);
+}
+
+.fbd-img-12 {
+    width: calc(var(--page-width) / 3.5);
+    height: auto;
+    display: inline-block;
+}
+
+.math-table-12 {
+    width: auto;
+    border-collapse: collapse;
+    margin-left: calc(var(--page-width) / 40);
+    margin-bottom: calc(var(--page-width) / 60);
+}
+
+.math-table-12 td {
+    vertical-align: top;
+    padding: calc(var(--page-width) / 200) calc(var(--page-width) / 100);
+    white-space: nowrap;
+}
+
+.italic-text-12 {
+    font-style: italic;
+    text-indent: 0;
+}

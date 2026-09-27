@@ -1,0 +1,72 @@
+/* =========================================================
+ *  STYLE KHUSUS HALAMAN 08 - PEMBELAJARAN LANGSUNG
+ *  ========================================================= */
+
+.description-text-08 {
+    font-size: calc(var(--page-width) / 45);
+    line-height: 1.5;
+    text-align: justify;
+
+    /* Tambahkan baris ini untuk mendorong paragraf ke bawah */
+    margin-top: calc(var(--page-width) / 30);
+
+    /* Margin kiri tetap dipertahankan */
+    margin-left: calc(var(--page-width) / 20);
+
+}
+
+/* Judul Tabel */
+.table-title-08 {
+    font-size: calc(var(--page-width) / 52);
+    margin-bottom: calc(var(--page-width) / 100);
+    /* Tambahkan margin-left untuk menggeser ke kanan */
+    margin-left: calc(var(--page-width) / 20);
+}
+
+/* Tabel Sintaks */
+.sintaks-table-08 {
+    /* Kurangi lebar 100% dengan nilai margin agar tabel tidak keluar batas */
+    width: calc(100% - calc(var(--page-width) / 20));
+    /* Tambahkan margin-left untuk menggeser ke kanan */
+    margin-left: calc(var(--page-width) / 20);
+
+    border-collapse: collapse;
+    font-size: calc(var(--page-width) / 52);
+    border: calc(var(--page-width) / 1500) solid #000000;
+}
+
+.sintaks-table-08 th {
+    background-color: #f2ede4;
+    border: calc(var(--page-width) / 1500) solid #000000;
+    padding: calc(var(--page-width) / 70) calc(var(--page-width) / 50);
+    text-align: center;
+    font-weight: bold;
+}
+
+.sintaks-table-08 td {
+    border: calc(var(--page-width) / 1500) solid #000000;
+    padding: calc(var(--page-width) / 60) calc(var(--page-width) / 50);
+    vertical-align: top;
+    line-height: calc(var(--page-width) / 40);
+}
+
+/* Kolom Tahap */
+.sintaks-table-08 th.col-tahap-header {
+    width: 22%;
+}
+
+.sintaks-table-08 td.col-tahap {
+    width: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+/* Teks Penjelasan Merah Italic */
+.red-italic-08 {
+    color: #c0392b;
+    font-style: italic;
+    display: block;
+    margin-top: calc(var(--page-width) / 90);
+    text-align: justify;
+}
