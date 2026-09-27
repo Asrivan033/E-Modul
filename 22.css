@@ -23,7 +23,7 @@
     align-items: center;
     gap: calc(var(--page-width) / 40);
     margin-bottom: calc(var(--page-width) / 40);
-    margin-top: calc(var(--page-width) / 30);
+    margin-top: calc(var(--page-width) / 25);
     box-shadow: 0 calc(var(--page-width) / 200) calc(var(--page-width) / 100) rgba(0, 0, 0, 0.15);
 }
 
